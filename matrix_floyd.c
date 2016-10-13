@@ -1,6 +1,7 @@
-#include <stdio.h>
+#include "matrix_floyd.h"
 #define INF 1073741823
 #define N 6
+
 
 int min(int a, int b)
 {
