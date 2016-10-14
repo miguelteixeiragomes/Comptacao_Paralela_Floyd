@@ -1,5 +1,6 @@
 #include "matrix_floyd.h"
 #define INF 1073741823
+#define N 6
 
 
 int min(int a, int b)
@@ -22,13 +23,12 @@ void floyd_algorithm(int* M, int n)
 
 int main(void)
 {
-	const int N = 6;
 	int m[N][N] = {{0, 2, 0, 5, 0, 0},
-								 {0, 0, 0, 0, 0, 0},
-								 {0, 2, 0, 0, 0, 5},
-								 {0, 0, 0, 0, 1, 0},
-								 {3, 9, 3, 0, 0, 0},
-								 {0, 0, 0, 0, 1, 0}};
+				   {0, 0, 0, 0, 0, 0},
+				   {0, 2, 0, 0, 0, 5},
+				   {0, 0, 0, 0, 1, 0},
+				   {3, 9, 3, 0, 0, 0},
+				   {0, 0, 0, 0, 1, 0}};
 
 	for (int i = 0; i < N; i++)
 		for (int j = 0; j < N; j++)
@@ -48,6 +48,7 @@ int main(void)
 		for (int j = 0; j < N; j++)
 			printf("%d ", m[i][j]);
 		printf("\n");}
+	printf("\n\n");
 
 	return 0;
 }
