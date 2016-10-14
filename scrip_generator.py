@@ -6,7 +6,7 @@ os.system('git commit -m "commiting..."')
 os.system('git push origin master')
 
 
-f = open('remote_script', 'w')
+f = open('remote_script.sh', 'w')
 f.write("cd ~/Documents/Computacao_Paralela_Floyd\ngit pull origin master")
 f.close()
 
