@@ -12,4 +12,4 @@ f.close()
 
 os.system('ssh up201203463@ssh.alunos.dcc.fc.up.pt sh -c "$(<remote_script)"')
 
-os.remove('remote_script')
+#os.remove('remote_script')
