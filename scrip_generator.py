@@ -1,13 +1,15 @@
 import os
 import glob
 
-files = glob.glob('*.c') + glob.glob('*.h')
+os.system("git add .")
+os.system('git commit -m "commiting..."')
+os.system('git push origin master')
 
-f = open('scp_script.cmd', 'w')
-for fl in files:
-    f.write('scp ' + fl + ' up201203463@ssh.alunos.dcc.fc.up.pt:~/Documents/Programacao_Paralela_Floyd\n')
 
+f = open('remote_script', 'w')
+f.write("cd ~/Documents/Computacao_Paralela_Floyd\ngit pull origin master")
 f.close()
 
-os.system('scp_script.cmd')
-os.remove('scp_script.cmd')
+os.system('ssh up201203463@ssh.alunos.dcc.fc.up.pt sh -c "$(<remote_script)"')
+
+os.remove('remote_script')
