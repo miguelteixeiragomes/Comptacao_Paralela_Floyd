@@ -67,14 +67,14 @@ int main(void)
 		}
 	}
 
-	/*floyd_algorithm_2(*m00, *m00, *m00, N/2);
+	floyd_algorithm_2(*m00, *m00, *m00, N/2);
 	floyd_algorithm_2(*m01, *m10, *m00, N/2);
-	add_matrix_floyd(*m00, *aux, *m00, N/2);*/
+	add_matrix_floyd(*m00, *aux, *m00, N/2);
 
 	/*floyd_algorithm(*m, N);
 	floyd_algorithm(*m, N);
 	floyd_algorithm(*m, N);*/
-	//floyd_algorithm_2(*m, *m, *m, N);
+	floyd_algorithm_2(*m, *m, *m, N);
 	//floyd_algorithm_2(*m, *m, *m, N);
 	//floyd_algorithm_2(*m, *m, *m, N);
 
