@@ -15,7 +15,7 @@ int min(int a, int b)
 }
 
 
-int add(int a, int, b)
+int add(int a, int b)
 {
 	return (int)((a == 0) || (b == 0)) * (a + b)
 }
