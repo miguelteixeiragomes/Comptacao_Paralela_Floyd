@@ -83,7 +83,7 @@ int main(void)
 	//floyd_algorithm_2(*m, *m, *m, N);
 	//floyd_algorithm_2(*m, *m, *m, N);
 
-	for (int i = 0; i < N; i++)
+	/*for (int i = 0; i < N; i++)
 		for (int j = 0; j < N; j++)
 			if (m[i][j] == INF)
 				m[i][j] = 0;
@@ -91,7 +91,7 @@ int main(void)
 	for (int i = 0; i < N/2; i++)
 		for (int j = 0; j < N/2; j++)
 			if (m00[i][j] == INF)
-				m00[i][j] = 0;
+				m00[i][j] = 0;*/
 
 	for (int i = 0; i < N; i++){
 		for (int j = 0; j < N; j++)
