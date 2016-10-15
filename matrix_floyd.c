@@ -101,10 +101,11 @@ int main(void)
 	printf("\n\n");
 
 
-	for (int i = 0; i < N / 2; i++) {
-		for (int j = 0; j < N / 2; j++) {
+	for (int i = 0; i < N/2; i++){
+		for (int j = 0; j < N/2; j++){
 			printf("%d ", aux1[i][j]);
-		}printf('\n');
+		}
+		printf('\n');
 	}
 	return 0;
 }
