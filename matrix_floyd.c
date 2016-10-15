@@ -67,8 +67,8 @@ int main(void)
 	for (int i = 0; i < N/2; i++){
 		for (int j = 0; j < N/2; j++){
 			m00[i][j] = m[i][j];
-			m01[i][j] = m[i + N/2][j];
-			m10[i][j] = m[i][j + N/2];
+			m01[i][j] = m[i][j + N/2];
+			m10[i][j] = m[i + N/2][j];
 			m11[i][j] = m[i + N/2][j + N/2];
 		}
 	}
