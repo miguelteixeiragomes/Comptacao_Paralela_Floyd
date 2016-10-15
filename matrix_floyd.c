@@ -72,7 +72,7 @@ int main(void)
 	for (int i = 0; i < N/2; i++){
 		for (int j = 0; j < N/2; j++){
 			m00[i*N/2 + j] = m[i*N + j];
-			m01[i*N/2 + j] = m[i*N j + N/2];
+			m01[i*N/2 + j] = m[i*N + j + N/2];
 			m10[i*N/2 + j] = m[(i + N/2)*N + j];
 			m11[i*N/2 + j] = m[(i + N/2)*N + j + N/2];
 		}
