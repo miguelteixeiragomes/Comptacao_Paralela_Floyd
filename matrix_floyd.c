@@ -102,7 +102,7 @@ int main(void)
 
 	for (int i = 0; i < N/2; i++){
 		for (int j = 0; j < N/2; j++)
-			printf("%d ", m01[i][j]);
+			printf("%d ", m10[i][j]);
 		printf("\n");}
 	printf("\n\n");
 
