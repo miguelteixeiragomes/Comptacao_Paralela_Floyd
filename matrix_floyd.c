@@ -1,5 +1,4 @@
 #include "matrix_floyd.h"
-#define N 6
 
 
 int min(int a, int b)
@@ -55,6 +54,7 @@ void add_matrix_floyd(int* A, int* B, int* C, int n)
 
 int main(void)
 {
+	int N = 6;
 	int m[N*N] = {0, 2, 0, 5, 0, 0,
 				  0, 0, 0, 0, 0, 0,
 				  0, 2, 0, 0, 0, 5,
