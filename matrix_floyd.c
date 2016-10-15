@@ -80,7 +80,7 @@ int main(void)
 	/*floyd_algorithm(*m, N);
 	floyd_algorithm(*m, N);
 	floyd_algorithm(*m, N);*/
-	floyd_algorithm_2(*m, *m, *m, N);
+	//floyd_algorithm_2(*m, *m, *m, N);
 	//floyd_algorithm_2(*m, *m, *m, N);
 	//floyd_algorithm_2(*m, *m, *m, N);
 
