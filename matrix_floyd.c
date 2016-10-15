@@ -1,5 +1,4 @@
 #include "matrix_floyd.h"
-#define INF 1073741823
 #define N 6
 
 
