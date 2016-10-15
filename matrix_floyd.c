@@ -16,7 +16,12 @@ int min(int a, int b)
 
 int add(int a, int b)
 {
-	return (1 - ((a == 0) || (b == 0))) * (a + b);
+	if (a == 0)
+		return 0;
+	if (b == 0)
+		return 0;
+	return a + b;
+	//return (1 - ((a == 0) || (b == 0))) * (a + b);
 }
 
 
