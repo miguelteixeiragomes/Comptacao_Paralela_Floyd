@@ -67,9 +67,12 @@ int main(void)
 	floyd_algorithm_2(*m01, *m10, *aux, N/2);
 	floyd_add(*m00, *aux, *m00, N/2);
 
+	/*floyd_algorithm(*m, N);
 	floyd_algorithm(*m, N);
-	floyd_algorithm(*m, N);
-	floyd_algorithm(*m, N);
+	floyd_algorithm(*m, N);*/
+	floyd_algorithm_2(*m, *m, *m, N);
+	floyd_algorithm_2(*m, *m, *m, N);
+	floyd_algorithm_2(*m, *m, *m, N);
 
 	for (int i = 0; i < N; i++)
 		for (int j = 0; j < N; j++)
