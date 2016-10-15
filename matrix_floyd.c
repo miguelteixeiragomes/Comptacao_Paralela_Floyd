@@ -118,5 +118,12 @@ int main(void)
 		}
 		printf("\n");
 	}
+
+	free(m00);
+	free(m01);
+	free(m10);
+	free(m11);
+	free(aux1);
+	free(aux2);
 	return 0;
 }
