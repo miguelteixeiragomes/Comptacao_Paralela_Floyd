@@ -78,23 +78,23 @@ int main(void)
 
 	int *aux1 = calloc(N*N/4, sizeof(int));
 	floyd_algorithm_2(m00, m00, m00, N/2);
-	floyd_algorithm_2(m01, m10, aux, N/2);
+	floyd_algorithm_2(m01, m10, aux1, N/2);
 	add_matrix_floyd(m00, aux1, m00, N/2);
 	free(aux1);
 	int *aux2 = calloc(N*N/4, sizeof(int));
 	floyd_algorithm_2(m00, m01, m01, N/2);
-	floyd_algorithm_2(m01, m11, aux, N/2);
+	floyd_algorithm_2(m01, m11, aux2, N/2);
 	add_matrix_floyd(m01, aux2, m01, N/2);
 	free(aux2);
 	int *aux3 = calloc(N*N/4, sizeof(int));
 	floyd_algorithm_2(m00, m00, m00, N/2);
-	floyd_algorithm_2(m01, m10, aux, N/2);
+	floyd_algorithm_2(m01, m10, aux3, N/2);
 	add_matrix_floyd(m00, aux3, m00, N/2);
 	free(aux3);
 	int *aux4 = calloc(N*N/4, sizeof(int));
 	floyd_algorithm_2(m00, m00, m00, N/2);
 	floyd_algorithm_2(m01, m10, aux4, N/2);
-	add_matrix_floyd(m00, aux, m00, N/2);
+	add_matrix_floyd(m00, aux4, m00, N/2);
 	free(aux4);
 
 	/*floyd_algorithm(*m, N);
