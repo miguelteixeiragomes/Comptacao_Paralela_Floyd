@@ -63,9 +63,9 @@ int main(void)
 		}
 	}
 
-	floyd_algorithm_2(*m00, *m00, *m00, N/3);
-	floyd_algorithm_2(*m01, *m10, *aux, N/3);
-	floyd_add(*m00, *aux, *m00, N/3);
+	floyd_algorithm_2(*m00, *m00, *m00, N/2);
+	floyd_algorithm_2(*m01, *m10, *aux, N/2);
+	floyd_add(*m00, *aux, *m00, N/2);
 
 	floyd_algorithm(*m, N);
 	floyd_algorithm(*m, N);
@@ -76,14 +76,19 @@ int main(void)
 			if (m[i][j] == INF)
 				m[i][j] = 0;
 
+	for (int i = 0; i < N/2; i++)
+		for (int j = 0; j < N/2; j++)
+			if (m00[i][j] == INF)
+				m00[i][j] = 0;
+
 	for (int i = 0; i < N; i++){
 		for (int j = 0; j < N; j++)
 			printf("%d ", m[i][j]);
 		printf("\n");}
 	printf("\n");
 
-	for (int i = 0; i < N/3; i++){
-		for (int j = 0; j < N/3; j++)
+	for (int i = 0; i < N/2; i++){
+		for (int j = 0; j < N/2; j++)
 			printf("%d ", m00[i][j]);
 		printf("\n");}
 	printf("\n\n");
