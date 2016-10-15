@@ -5,9 +5,19 @@
 
 int min(int a, int b)
 {
+	if (a == 0)
+		return b;
+	if (b == 0)
+		return a;
 	if (b < a)
 		return b;
 	return a;
+}
+
+
+int add(int a, int, b)
+{
+	return (int)((a == 0) || (b == 0)) * (a + b)
 }
 
 
@@ -27,7 +37,7 @@ void floyd_algorithm_2(int* A, int* B, int* C, int n)
 		for (int j = 0; j < n; j++)
 			if (i != j)
 				for (int k = 0; k < n; k++)
-					C[n*i + j] = min(C[n*i + j], A[n*i + k] + B[n*k + j]);
+					C[n*i + j] = min(C[n*i + j], add(A[n*i + k], B[n*k + j]));
 }
 
 
@@ -49,10 +59,10 @@ int main(void)
 				   {0, 0, 0, 0, 1, 0}};
 	int m00[N/2][N/2], m01[N/2][N/2], m10[N/2][N/2], m11[N/2][N/2], aux[N/2][N/2];
 
-	for (int i = 0; i < N; i++)
+	/*for (int i = 0; i < N; i++)
 		for (int j = 0; j < N; j++)
 			if (m[i][j] == 0)
-				m[i][j] = INF;
+				m[i][j] = INF;*/
 
 	for (int i = 0; i < N/2; i++){
 		for (int j = 0; j < N/2; j++){
