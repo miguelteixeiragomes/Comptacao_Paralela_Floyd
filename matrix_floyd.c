@@ -11,13 +11,13 @@ int min(int a, int b)
 }
 
 
-void floyd_algorithm(int* M, int n)
+void floyd_algorithm(int* M)//, int n)
 {
 	for (int i = 0; i < n; i++)
 		for (int j = 0; j < n; j++)
 			if (i != j)
 				for (int k = 0; k < n; k++)
-					M[n*i + j] = min(M[n*i + j], M[n*i + k] + M[n*k + j]);
+					M[i][j] = min(M[i][j], M[i][k] + M[k][j]);
 }
 
 
