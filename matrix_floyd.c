@@ -41,7 +41,7 @@ void floyd_algorithm_2(int* A, int* B, int* C, int n)
 }
 
 
-void floyd_add(int* A, int* B, int* C, int n)
+void add_matrix_floyd(int* A, int* B, int* C, int n)
 {
 	for (int i = 0; i < n; i++)
 		for (int j = 0; j < n; j++)
@@ -73,16 +73,16 @@ int main(void)
 		}
 	}
 
-	floyd_algorithm_2(*m00, *m00, *m00, N/2);
-	floyd_algorithm_2(*m01, *m10, *aux, N/2);
-	floyd_add(*m00, *aux, *m00, N/2);
+	//floyd_algorithm_2(*m00, *m00, *m00, N/2);
+	//floyd_algorithm_2(*m01, *m10, *aux, N/2);
+	//add_matrix_floyd(*m00, *aux, *m00, N/2);
 
 	/*floyd_algorithm(*m, N);
 	floyd_algorithm(*m, N);
 	floyd_algorithm(*m, N);*/
 	floyd_algorithm_2(*m, *m, *m, N);
-	floyd_algorithm_2(*m, *m, *m, N);
-	floyd_algorithm_2(*m, *m, *m, N);
+	//floyd_algorithm_2(*m, *m, *m, N);
+	//floyd_algorithm_2(*m, *m, *m, N);
 
 	for (int i = 0; i < N; i++)
 		for (int j = 0; j < N; j++)
