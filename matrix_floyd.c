@@ -114,7 +114,7 @@ int main(void)
 
 	for (int i = 0; i < N/2; i++){
 		for (int j = 0; j < N/2; j++){
-			printf("%d ", aux2[i*N/2 + j]);
+			printf("%d ", aux1[i*N/2 + j]);
 		}
 		printf("\n");
 	}
