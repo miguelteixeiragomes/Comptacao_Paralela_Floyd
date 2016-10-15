@@ -73,14 +73,14 @@ int main(void)
 		}
 	}
 
-	//floyd_algorithm_2(*m00, *m00, *m00, N/2);
-	//floyd_algorithm_2(*m01, *m10, *m00, N/2);
-	//add_matrix_floyd(*m00, *aux, *m00, N/2);
+	floyd_algorithm_2(*m00, *m00, *m00, N/2);
+	floyd_algorithm_2(*m01, *m10, *m00, N/2);
+	add_matrix_floyd(*m00, *aux, *m00, N/2);
 
 	/*floyd_algorithm(*m, N);
 	floyd_algorithm(*m, N);
 	floyd_algorithm(*m, N);*/
-	//floyd_algorithm_2(*m, *m, *m, N);
+	floyd_algorithm_2(*m, *m, *m, N);
 	//floyd_algorithm_2(*m, *m, *m, N);
 	//floyd_algorithm_2(*m, *m, *m, N);
 
@@ -102,7 +102,7 @@ int main(void)
 
 	for (int i = 0; i < N/2; i++){
 		for (int j = 0; j < N/2; j++)
-			printf("%d ", m11[i][j]);
+			printf("%d ", m00[i][j]);
 		printf("\n");}
 	printf("\n\n");
 
