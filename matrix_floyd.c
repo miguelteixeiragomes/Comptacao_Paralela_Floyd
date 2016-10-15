@@ -35,7 +35,7 @@ void floyd_add(int* A, int* B, int* C, int n)
 {
 	for (int i = 0; i < n; i++)
 		for (int j = 0; j < n; j++)
-			C[n*i + j] = min(A[n*i + j], B[n*i + j])
+			C[n*i + j] = min(A[n*i + j], B[n*i + j]);
 }
 
 
