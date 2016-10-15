@@ -62,6 +62,12 @@ int main(void)
 				  3, 9, 3, 0, 0, 0,
 				  0, 0, 0, 0, 1, 0};
 	int m00[N/2*N/2], m01[N/2*N/2], m10[N/2*N/2], m11[N/2*N/2], aux1[N/2*N/2], aux2[N/2*N/2];
+	int *m00 = malloc(N*N/4*sizeof(int));
+	int *m01 = malloc(N*N / 4 * sizeof(int));
+	int *m10 = malloc(N*N / 4 * sizeof(int));
+	int *m11 = malloc(N*N / 4 * sizeof(int));
+	int *aux1 = malloc(N*N / 4 * sizeof(int));
+	int *aux2 = malloc(N*N / 4 * sizeof(int));
 
 	for (int i = 0; i < N/2; i++){
 		for (int j = 0; j < N/2; j++){
