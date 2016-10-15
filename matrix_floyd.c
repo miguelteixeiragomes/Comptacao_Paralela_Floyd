@@ -55,20 +55,20 @@ void add_matrix_floyd(int* A, int* B, int* C, int n)
 
 int main(void)
 {
-	int m[N][N] = {{0, 2, 0, 5, 0, 0},
-				   {0, 0, 0, 0, 0, 0},
-				   {0, 2, 0, 0, 0, 5},
-				   {0, 0, 0, 0, 1, 0},
-				   {3, 9, 3, 0, 0, 0},
-				   {0, 0, 0, 0, 1, 0}};
-	int m00[N/2][N/2], m01[N/2][N/2], m10[N/2][N/2], m11[N/2][N/2], aux1[N/2][N/2], aux2[N/2][N/2];
+	int m[N*N] = {0, 2, 0, 5, 0, 0,
+				  0, 0, 0, 0, 0, 0,
+				  0, 2, 0, 0, 0, 5,
+				  0, 0, 0, 0, 1, 0,
+				  3, 9, 3, 0, 0, 0,
+				  0, 0, 0, 0, 1, 0};
+	int m00[N/2*N/2], m01[N/2*N/2], m10[N/2*N/2], m11[N/2*N/2], aux1[N/2*N/2], aux2[N/2*N/2];
 
 	for (int i = 0; i < N/2; i++){
 		for (int j = 0; j < N/2; j++){
-			m00[i][j] = m[i][j];
-			m01[i][j] = m[i][j + N/2];
-			m10[i][j] = m[i + N/2][j];
-			m11[i][j] = m[i + N/2][j + N/2];
+			m00[i*N/2 + j] = m[i*N + j];
+			m01[i*N/2 + j] = m[i*N j + N/2];
+			m10[i*N/2 + j] = m[(i + N/2)*N + j];
+			m11[i*N/2 + j] = m[(i + N/2)*N + j + N/2];
 		}
 	}
 
@@ -85,30 +85,30 @@ int main(void)
 
 	for (int i = 0; i < N; i++){
 		for (int j = 0; j < N; j++)
-			printf("%d ", m[i][j]);
+			printf("%d ", m[i*N + j]);
 		printf("\n");}
 	printf("\n");
 
 
 	for (int i = 0; i < N/2; i++){
 		for (int j = 0; j < N/2; j++){
-			m[i][j]             = m00[i][j];
-			m[i][j + N/2]       = m01[i][j];
-			m[i + N/2][j]       = m10[i][j];
-			m[i + N/2][j + N/2] = m11[i][j];
+			m[i*N + j]             = m00[i][j];
+			m[i*N + j + N/2]       = m01[i][j];
+			m[(i + N/2)*N + j]       = m10[i][j];
+			m[(i + N/2)*N + j + N/2] = m11[i][j];
 		}
 	}
 
 	for (int i = 0; i < N; i++){
 		for (int j = 0; j < N; j++)
-			printf("%d ", m[i][j]);
+			printf("%d ", m[i*N + j]);
 		printf("\n");}
 	printf("\n\n");
 
 
 	for (int i = 0; i < N/2; i++){
 		for (int j = 0; j < N/2; j++){
-			printf("%d ", aux1[i][j]);
+			printf("%d ", aux1[i*N/2 + j]);
 		}
 		printf("\n");
 	}
