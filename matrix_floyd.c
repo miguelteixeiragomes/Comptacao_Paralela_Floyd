@@ -39,7 +39,7 @@ void floyd_algorithm_2(int* A, int* B, int* C, int n)
 {
 	for (int i = 0; i < n; i++)
 		for (int j = 0; j < n; j++)
-			//if (i != j)
+			if (i != j)
 				for (int k = 0; k < n; k++)
 					C[n*i + j] = min(C[n*i + j], add(A[n*i + k], B[n*k + j]));
 }
