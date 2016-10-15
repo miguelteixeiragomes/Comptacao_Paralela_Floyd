@@ -21,6 +21,24 @@ void floyd_algorithm(int* M, int n)
 }
 
 
+void floyd_algorithm_2(int* A, int* B, int* C, int n)
+{
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++)
+			if (i != j)
+				for (int k = 0; k < n; k++)
+					C[n*i + j] = min(C[n*i + j], A[n*i + k] + B[n*k + j]);
+}
+
+
+void floyd_add(int* A, int* B, int* C, int n)
+{
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++)
+			C[n*i + j] = min(A[n*i + j], B[n*i + j])
+}
+
+
 int main(void)
 {
 	int m[N][N] = {{0, 2, 0, 5, 0, 0},
@@ -29,11 +47,25 @@ int main(void)
 				   {0, 0, 0, 0, 1, 0},
 				   {3, 9, 3, 0, 0, 0},
 				   {0, 0, 0, 0, 1, 0}};
+	int m00[N/3][N/3], m01[N/3][N/3], m10[N/3][N/3], m11[N/3][N/3], aux[N/3][N/3];
 
 	for (int i = 0; i < N; i++)
 		for (int j = 0; j < N; j++)
 			if (m[i][j] == 0)
 				m[i][j] = INF;
+
+	for (int i = 0; i < N/2; i++){
+		for (int j = 0; j < N/2; j++){
+			m00[i][j] = m[i][j];
+			m01[i][j] = m[i + N/2][j];
+			m10[i][j] = m[i][j + N/2];
+			m11[i][j] = m[i + N/2][j + N/2];
+		}
+	}
+
+	floyd_algorithm_2(*m00, *m00, *m00, N/3);
+	floyd_algorithm_2(*m01, *m10, *aux, N/3);
+	floyd_add(*m00, *aux, *m00, N/3);
 
 	floyd_algorithm(*m, N);
 	floyd_algorithm(*m, N);
@@ -47,6 +79,12 @@ int main(void)
 	for (int i = 0; i < N; i++){
 		for (int j = 0; j < N; j++)
 			printf("%d ", m[i][j]);
+		printf("\n");}
+	printf("\n");
+
+	for (int i = 0; i < N/3; i++){
+		for (int j = 0; j < N/3; j++)
+			printf("%d ", m00[i][j]);
 		printf("\n");}
 	printf("\n\n");
 

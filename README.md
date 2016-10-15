@@ -1,1 +1,1 @@
-# Comptacao_Paralela_Floyd
+# Computacao_Paralela_Floyd
