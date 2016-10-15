@@ -78,8 +78,8 @@ int main(void)
 		}
 	}
 
-	floyd_algorithm_2(*m00, *m00, *aux1, N/2);
-	floyd_algorithm_2(*m01, *m10, *aux2, N/2);
+	floyd_algorithm_2(m00, m00, aux1, N/2);
+	floyd_algorithm_2(m01, m10, aux2, N/2);
 	//add_matrix_floyd(*aux1, *aux2, *m00, N/2);
 
 	/*floyd_algorithm(*m, N);
