@@ -78,16 +78,33 @@ int main(void)
 		}
 	}
 
+	int *aux = calloc(N*N/4, sizeof(int));
 	floyd_algorithm_2(m00, m00, m00, N/2);
-	floyd_algorithm_2(m01, m10, aux1, N/2);
-	add_matrix_floyd(m00, aux1, m00, N/2);
+	floyd_algorithm_2(m01, m10, aux, N/2);
+	add_matrix_floyd(m00, aux, m00, N/2);
+	free(aux);
+	int *aux = calloc(N*N/4, sizeof(int));
+	floyd_algorithm_2(m00, m01, m01, N/2);
+	floyd_algorithm_2(m01, m11, aux, N/2);
+	add_matrix_floyd(m01, aux, m01, N/2);
+	free(aux);
+	int *aux = calloc(N*N/4, sizeof(int));
+	floyd_algorithm_2(m00, m00, m00, N/2);
+	floyd_algorithm_2(m01, m10, aux, N/2);
+	add_matrix_floyd(m00, aux, m00, N/2);
+	free(aux);
+	int *aux = calloc(N*N/4, sizeof(int));
+	floyd_algorithm_2(m00, m00, m00, N/2);
+	floyd_algorithm_2(m01, m10, aux, N/2);
+	add_matrix_floyd(m00, aux, m00, N/2);
+	free(aux);
 
 	/*floyd_algorithm(*m, N);
 	floyd_algorithm(*m, N);
 	floyd_algorithm(*m, N);*/
 	floyd_algorithm_2(m, m, m, N);
-	floyd_algorithm_2(m, m, m, N);
-	floyd_algorithm_2(m, m, m, N);
+	//floyd_algorithm_2(m, m, m, N);
+	//floyd_algorithm_2(m, m, m, N);
 
 	for (int i = 0; i < N; i++){
 		for (int j = 0; j < N; j++)
