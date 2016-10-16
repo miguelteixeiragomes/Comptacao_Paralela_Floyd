@@ -90,7 +90,7 @@ int main(int input)
 		}
 	}
 
-	for (int step = 0; step < input; step++) {
+	for (int step = 0; step < 3; step++) {
 		floyd_algorithm_2(m00, m00, aux, N / 2);
 		floyd_algorithm_2(m01, m10, aux2, N / 2);
 		min_matrix_floyd(aux, aux2, m00, N / 2);
@@ -152,5 +152,6 @@ int main(int input)
 	free(m10);
 	free(m11);
 	free(aux);
+	printf("input = %d", input)
 	return 0;
 }
