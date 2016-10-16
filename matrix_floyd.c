@@ -152,6 +152,6 @@ int main(int input)
 	free(m10);
 	free(m11);
 	free(aux);
-	printf("input = %d", input)
+	printf("input = %d", input);
 	return 0;
 }
