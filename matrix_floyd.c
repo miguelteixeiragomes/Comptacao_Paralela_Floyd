@@ -65,7 +65,7 @@ void set_zero(int* a, int n)
 		a[i] = 0;
 }
 
-int main(int input)
+int main(void)
 {
 	int m[N*N] = {0, 2, 0, 5, 0, 0,
 				  0, 0, 0, 0, 0, 0,
