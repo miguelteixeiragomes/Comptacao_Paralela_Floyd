@@ -101,7 +101,6 @@ int main(void)
 		printf("\n");}
 	printf("\n");
 
-	m11[4] = 1000;
 
 	for (int i = 0; i < N/2; i++){
 		for (int j = 0; j < N/2; j++){
