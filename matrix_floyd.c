@@ -84,8 +84,8 @@ int main(void)
 		}
 	}
 
-	floyd_algorithm_2(m10, m00, aux, N/2);
-	floyd_algorithm_2(m11, m10, aux2, N/2);
+	add_matrix_floyd(m10, m00, aux, N/2);
+	add_matrix_floyd(m11, m10, aux2, N/2);
 	min_matrix_floyd(aux, aux2, m10, N/2);
 
 	/*floyd_algorithm(*m, N);
