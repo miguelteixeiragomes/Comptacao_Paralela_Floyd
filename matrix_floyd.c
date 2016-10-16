@@ -121,7 +121,7 @@ int main(void)
 
 	for (int i = 0; i < N/2; i++){
 		for (int j = 0; j < N/2; j++){
-			printf("%d ", m11[i*N/2 + j]);
+			printf("%d ", m10[i*N/2 + j]);
 		}
 		printf("\n");
 	}
