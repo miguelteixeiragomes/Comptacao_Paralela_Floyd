@@ -32,6 +32,7 @@ M00 = M[:3, :3]
 M01 = M[:3, 3:]
 M10 = M[3:, :3]
 M11 = M[3:, 3:]
+Aux = np.zeros(M11.shape, M11.dtype)
 
 '''print M
 print M00
