@@ -84,14 +84,14 @@ int main(void)
 		}
 	}
 
-	/*add_matrix_floyd(m10, m00, aux, N/2);
+	add_matrix_floyd(m10, m00, aux, N/2);
 	add_matrix_floyd(m11, m10, aux2, N/2);
-	min_matrix_floyd(aux, aux2, m11, N/2);*/
+	min_matrix_floyd(aux, aux2, m11, N/2);
 
 	/*floyd_algorithm(*m, N);
 	floyd_algorithm(*m, N);
 	floyd_algorithm(*m, N);*/
-	//floyd_algorithm_2(m, m, m, N);
+	floyd_algorithm_2(m, m, m, N);
 	//floyd_algorithm_2(m, m, m, N);
 	//floyd_algorithm_2(m, m, m, N);
 
@@ -116,14 +116,6 @@ int main(void)
 			printf("%d ", m[i*N + j]);
 		printf("\n");}
 	printf("\n\n");
-
-
-	for (int i = 0; i < N/2; i++){
-		for (int j = 0; j < N/2; j++){
-			printf("%d ", m10[i*N/2 + j]);
-		}
-		printf("\n");
-	}
 
 	free(m00);
 	free(m01);
