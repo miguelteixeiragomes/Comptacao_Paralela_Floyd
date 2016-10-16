@@ -66,7 +66,7 @@ int main(void)
 	int *m01 = calloc(N*N/4, sizeof(int));
 	int *m10 = calloc(N*N/4, sizeof(int));
 	int *m11 = calloc(N*N/4, sizeof(int));
-	int *aux = calloc(N*N/4, sizeof(int))
+	int *aux = calloc(N*N/4, sizeof(int));
 
 	for (int i = 0; i < N/2; i++){
 		for (int j = 0; j < N/2; j++){
