@@ -59,6 +59,12 @@ void min_matrix_floyd(int* A, int* B, int* C, int n)
 			C[i] = min(A[i], B[i]);
 }
 
+void set_zero(int* a, int n)
+{
+	for (int i = 0; i < (n*n); i++)
+		a[i] = 0;
+}
+
 int main(void)
 {
 	int m[N*N] = {0, 2, 0, 5, 0, 0,
@@ -73,7 +79,7 @@ int main(void)
 	int *m10 = calloc(N*N/4, sizeof(int));
 	int *m11 = calloc(N*N/4, sizeof(int));
 	int *aux = calloc(N*N/4, sizeof(int));
-	int *aux2 = calloc(N*N / 4, sizeof(int));
+	int *aux2 = calloc(N*N/4, sizeof(int));
 
 	for (int i = 0; i < N/2; i++){
 		for (int j = 0; j < N/2; j++){
@@ -88,18 +94,26 @@ int main(void)
 		floyd_algorithm_2(m00, m00, aux, N / 2);
 		floyd_algorithm_2(m01, m10, aux2, N / 2);
 		min_matrix_floyd(aux, aux2, m00, N / 2);
+		set_zero(aux, N/2);
+		set_zero(aux2, N/2);
 
 		floyd_algorithm_2(m00, m01, aux, N / 2);
 		floyd_algorithm_2(m01, m11, aux2, N / 2);
 		min_matrix_floyd(aux, aux2, m01, N / 2);
+		set_zero(aux, N/2);
+		set_zero(aux2, N/2);
 
 		floyd_algorithm_2(m10, m00, aux, N / 2);
 		floyd_algorithm_2(m11, m10, aux2, N / 2);
 		min_matrix_floyd(aux, aux2, m10, N / 2);
+		set_zero(aux, N/2);
+		set_zero(aux2, N/2);
 
 		floyd_algorithm_2(m10, m01, aux, N / 2);
 		floyd_algorithm_2(m11, m11, aux2, N / 2);
 		min_matrix_floyd(aux, aux2, m11, N / 2);
+		set_zero(aux, N/2);
+		set_zero(aux2, N/2);
 
 		floyd_algorithm_2(m, m, m, N);
 	}
