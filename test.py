@@ -14,14 +14,12 @@ def min(a, b):
         return b
     return a
 
-def floyd_mul(a):
-    c = np.zeros(a.shape, a.dtype)
+def floyd_mul(a, b, c):
     for i in range(a.shape[0]):
         for j in range(a.shape[0]):
             if i != j:
                 for k in range(a.shape[0]):
-                    c[i, j] = min(c[i, j], add(a[i, k], a[k, j]))
-    return c
+                    c[i, j] = min(c[i, j], add(a[i, k], b[k, j]))
 
 M = np.array([[0, 2, 0, 5, 0, 0],
               [0, 0, 0, 0, 0, 0],
@@ -41,7 +39,7 @@ print M01
 print M10
 print M11'''
 
+floyd_mul(M, M, M)
 #floyd_mul(M, M, M)
 #floyd_mul(M, M, M)
-#floyd_mul(M, M, M)
-print floyd_mul(floyd_mul(floyd_mul(M)))
+print M
