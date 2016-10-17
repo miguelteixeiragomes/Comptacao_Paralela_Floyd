@@ -98,9 +98,9 @@ int main(void)
 		floyd_algorithm(m00, m00, aux, N / 2);
 		floyd_algorithm(m01, m10, aux2, N / 2);
 
-		printf("aux:");
+		printf("aux:\n");
 		print_matrix(aux, N / 2);
-		printf("aux2:");
+		printf("aux2:\n");
 		print_matrix(aux, N / 2);
 
 		min_matrix_floyd(aux, aux2, m00, N / 2);
@@ -111,9 +111,9 @@ int main(void)
 		floyd_algorithm(m01, m11, aux2, N / 2);
 		min_matrix_floyd(aux, aux2, m01, N / 2);
 
-		printf("aux:");
+		printf("aux:\n");
 		print_matrix(aux, N / 2);
-		printf("aux2:");
+		printf("aux2:\n");
 		print_matrix(aux, N / 2);
 
 		set_zero(aux, N/2);
@@ -123,9 +123,9 @@ int main(void)
 		floyd_algorithm(m11, m10, aux2, N / 2);
 		min_matrix_floyd(aux, aux2, m10, N / 2);
 
-		printf("aux:");
+		printf("aux:\n");
 		print_matrix(aux, N / 2);
-		printf("aux2:");
+		printf("aux2:\n");
 		print_matrix(aux, N / 2);
 
 		set_zero(aux, N/2);
@@ -135,9 +135,9 @@ int main(void)
 		floyd_algorithm(m11, m11, aux2, N / 2);
 		min_matrix_floyd(aux, aux2, m11, N / 2);
 
-		printf("aux:");
+		printf("aux:\n");
 		print_matrix(aux, N / 2);
-		printf("aux2:");
+		printf("aux2:\n");
 		print_matrix(aux, N / 2);
 
 		set_zero(aux, N/2);
