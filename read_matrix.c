@@ -1,4 +1,4 @@
-#include "matrix_floyd.h"
+//#include "matrix_floyd.h"
 #include "read_matrix.h"
 
 
@@ -28,13 +28,19 @@ int* read_matrix(FILE *file, int N)
 	return M;
 }
 
-void print_output_matrix(int N, int **mat) {
-	for (int i = 0; i<N; i++) {
-		for (int j = 0; j<N - 1; j++) {
-			printf("%i ", mat[i][j]);
+
+void print_matrix(int* a, int n)
+{
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			if (a[i*n + j] == INF)
+				printf("%d ", 0);
+			else
+				printf("%d ", a[i*n + j]);
 		}
-		printf("%i\n", mat[i][N - 1]);
+		printf("\n");
 	}
+	printf("\n");
 }
 
 
