@@ -48,6 +48,6 @@ int main(int argc, char **argv)
 	int* M;
 	M = read_matrix(file, N);
 
-	print_matrix(M, N);
+	print_matrix(*M, N);
 	return 0;
 }
