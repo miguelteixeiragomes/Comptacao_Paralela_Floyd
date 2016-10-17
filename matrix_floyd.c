@@ -49,7 +49,7 @@ void set_zero(int* a, int n)
 		a[i] = 0;
 }
 
-int main(int input)
+int main(void)
 {
 	int m[N*N] = {0, 2, 0, 5, 0, 0,
 				  0, 0, 0, 0, 0, 0,
@@ -79,7 +79,7 @@ int main(int input)
 		}
 	}
 
-	for (int step = input; step < 3; step++) {
+	for (int step = 0; step < 1; step++) {
 		floyd_algorithm(m00, m00, aux, N / 2);
 		floyd_algorithm(m01, m10, aux2, N / 2);
 		min_matrix_floyd(aux, aux2, m00, N / 2);
