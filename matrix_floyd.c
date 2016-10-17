@@ -84,7 +84,7 @@ int main(void)
 		}
 	}
 
-	for (int step = 0; step < 1; step++) {
+	for (int step = 0; step < 3; step++) {
 		//printf("m00:\n");
 		print_matrix(m00, N / 2);
 
