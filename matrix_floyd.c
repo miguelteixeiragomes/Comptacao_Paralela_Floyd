@@ -133,7 +133,7 @@ int main(void)
 			else*/
 				printf("%d ", m[i*N + j]);}
 		printf("\n");}
-	printf("\ninput = %d\n", input);
+	printf("\n\n");
 
 	free(m00);
 	free(m01);
