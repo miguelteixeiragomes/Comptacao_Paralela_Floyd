@@ -95,6 +95,9 @@ int main(void)
 	}
 
 	for (int step = 0; step < 1; step++) {
+		printf("m00:\n");
+		print_matrix(m00, N / 2);
+
 		floyd_algorithm(m00, m00, aux, N / 2);
 		floyd_algorithm(m01, m10, aux2, N / 2);
 
