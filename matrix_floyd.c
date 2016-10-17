@@ -21,7 +21,7 @@ void floyd_algorithm(int* A, int* B, int* C, int n)
 	for (i = 0; i < n; i++)
 		for (j = 0; j < n; j++)
 			for (k = 0; k < n; k++)
-				printf("i,j,k=(%d,%d,%d) -> C=%d, %d+%d=%d => %d\n", i, j, k, C[n*i + j], A[n*i + k], B[n*k + j], A[n*i + k] + B[n*k + j], min(C[n*i + j], A[n*i + k] + B[n*k + j]));
+				//printf("i,j,k=(%d,%d,%d) -> C=%d, %d+%d=%d => %d\n", i, j, k, C[n*i + j], A[n*i + k], B[n*k + j], A[n*i + k] + B[n*k + j], min(C[n*i + j], A[n*i + k] + B[n*k + j]));
 				C[n*i + j] = min(C[n*i + j], A[n*i + k] + B[n*k + j]);
 }
 
@@ -85,59 +85,59 @@ int main(void)
 	}
 
 	for (int step = 0; step < 1; step++) {
-		printf("m00:\n");
+		//printf("m00:\n");
 		print_matrix(m00, N / 2);
 
-		printf("m00 * m00\n");
+		//printf("m00 * m00\n");
 		floyd_algorithm(m00, m00, m00, N / 2);
-		printf("m01 * m10\n");
-		floyd_algorithm(m01, m10, m00, N / 2);
-		break;
-		printf("aux:\n");
-		print_matrix(aux, N / 2);
-		printf("aux2:\n");
-		print_matrix(aux2, N / 2);
+		//printf("m01 * m10\n");
+		floyd_algorithm(m01, m10, m01, N / 2);
+		//break;
+		//printf("aux:\n");
+		//print_matrix(aux, N / 2);
+		//printf("aux2:\n");
+		//print_matrix(aux2, N / 2);
 
-		min_matrix_floyd(aux, aux2, m00, N / 2);
+		min_matrix_floyd(m00, m01, m00, N / 2);
 
-		printf("m00:\n");
-		print_matrix(m00, N / 2);
-
-		set_zero(aux, N/2);
-		set_zero(aux2, N/2);
-
-		floyd_algorithm(m00, m01, aux, N / 2);
-		floyd_algorithm(m01, m11, aux2, N / 2);
-		min_matrix_floyd(aux, aux2, m01, N / 2);
-
-		printf("aux:\n");
-		print_matrix(aux, N / 2);
-		printf("aux2:\n");
-		print_matrix(aux2, N / 2);
+		//printf("m00:\n");
+		//print_matrix(m00, N / 2);
 
 		set_zero(aux, N/2);
 		set_zero(aux2, N/2);
 
-		floyd_algorithm(m10, m00, aux, N / 2);
-		floyd_algorithm(m11, m10, aux2, N / 2);
-		min_matrix_floyd(aux, aux2, m10, N / 2);
+		floyd_algorithm(m00, m01, m00, N / 2);
+		floyd_algorithm(m01, m11, m01, N / 2);
+		min_matrix_floyd(m00, m01, m00, N / 2);
 
-		printf("aux:\n");
-		print_matrix(aux, N / 2);
-		printf("aux2:\n");
-		print_matrix(aux2, N / 2);
+		//printf("aux:\n");
+		//print_matrix(aux, N / 2);
+		//printf("aux2:\n");
+		//print_matrix(aux2, N / 2);
 
 		set_zero(aux, N/2);
 		set_zero(aux2, N/2);
 
-		floyd_algorithm(m10, m01, aux, N / 2);
-		floyd_algorithm(m11, m11, aux2, N / 2);
-		min_matrix_floyd(aux, aux2, m11, N / 2);
+		floyd_algorithm(m10, m00, m10, N / 2);
+		floyd_algorithm(m11, m10, m11, N / 2);
+		min_matrix_floyd(m10, m11, m10, N / 2);
 
-		printf("aux:\n");
+		/*printf("aux:\n");
 		print_matrix(aux, N / 2);
 		printf("aux2:\n");
-		print_matrix(aux2, N / 2);
+		print_matrix(aux2, N / 2);*/
+
+		set_zero(aux, N/2);
+		set_zero(aux2, N/2);
+
+		floyd_algorithm(m10, m01, m10, N / 2);
+		floyd_algorithm(m11, m11, m11, N / 2);
+		min_matrix_floyd(m10, m11, m11, N / 2);
+
+		/*printf("aux:\n");
+		print_matrix(aux, N / 2);
+		printf("aux2:\n");
+		print_matrix(aux2, N / 2);*/
 
 		set_zero(aux, N/2);
 		set_zero(aux2, N/2);
