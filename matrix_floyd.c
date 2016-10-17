@@ -101,7 +101,7 @@ int main(void)
 		printf("aux:\n");
 		print_matrix(aux, N / 2);
 		printf("aux2:\n");
-		print_matrix(aux, N / 2);
+		print_matrix(aux2, N / 2);
 
 		min_matrix_floyd(aux, aux2, m00, N / 2);
 		set_zero(aux, N/2);
@@ -114,7 +114,7 @@ int main(void)
 		printf("aux:\n");
 		print_matrix(aux, N / 2);
 		printf("aux2:\n");
-		print_matrix(aux, N / 2);
+		print_matrix(aux2, N / 2);
 
 		set_zero(aux, N/2);
 		set_zero(aux2, N/2);
@@ -126,7 +126,7 @@ int main(void)
 		printf("aux:\n");
 		print_matrix(aux, N / 2);
 		printf("aux2:\n");
-		print_matrix(aux, N / 2);
+		print_matrix(aux2, N / 2);
 
 		set_zero(aux, N/2);
 		set_zero(aux2, N/2);
@@ -138,7 +138,7 @@ int main(void)
 		printf("aux:\n");
 		print_matrix(aux, N / 2);
 		printf("aux2:\n");
-		print_matrix(aux, N / 2);
+		print_matrix(aux2, N / 2);
 
 		set_zero(aux, N/2);
 		set_zero(aux2, N/2);
