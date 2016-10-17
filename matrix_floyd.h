@@ -1,5 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int min(int, int);
 void floyd_algorithm(int*, int*, int*, int);
+void print_matrix(int*, int)
