@@ -109,9 +109,9 @@ int main(void)
 
 	for (int i = 0; i < N; i++){
 		for (int j = 0; j < N; j++) {
-			if (m[i*N + j] == INF)
+			/*if (m[i*N + j] == INF)
 				printf("%d ", 0);
-			else
+			else*/
 				printf("%d ", m[i*N + j]);}
 		printf("\n");}
 	printf("\n");
@@ -128,9 +128,9 @@ int main(void)
 
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N; j++) {
-			if (m[i*N + j] == INF)
+			/*if (m[i*N + j] == INF)
 				printf("%d ", 0);
-			else
+			else*/
 				printf("%d ", m[i*N + j]);}
 		printf("\n");}
 	printf("\n");
