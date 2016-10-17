@@ -50,7 +50,7 @@ int main(int argc, char **argv)
 	FILE *file;
 	file = fopen(argv[1], "r");
 
-	int N = get_matrix_structure(file);
+	int N = read_N(file);
 	int* M = read_matrix(file, N);
 
 	print_matrix(M, N);
