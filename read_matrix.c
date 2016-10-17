@@ -1,6 +1,7 @@
-//#include "matrix_floyd.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include "matrix_floyd.h"
 #include "read_matrix.h"
-#define INF 1000000000
 
 
 int read_N(FILE* file) 
@@ -27,21 +28,6 @@ int* read_matrix(FILE *file, int N)
 		}
 	}
 	return M;
-}
-
-
-void print_matrix(int* a, int n)
-{
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < n; j++) {
-			if (a[i*n + j] == INF)
-				printf("%d ", 0);
-			else
-				printf("%d ", a[i*n + j]);
-		}
-		printf("\n");
-	}
-	printf("\n");
 }
 
 
