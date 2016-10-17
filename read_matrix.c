@@ -43,7 +43,7 @@ int main(int argc, char **argv)
 	// Check file input
 	if (argc < 2) {
 		printf("No input file supplied\n");
-		return;
+		return 1;
 	}
 
 	// Open input file
