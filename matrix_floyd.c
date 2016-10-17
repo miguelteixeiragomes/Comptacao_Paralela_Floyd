@@ -79,7 +79,7 @@ int main(void)
 		}
 	}
 
-	for (int step = 0; step < 0; step++) {
+	for (int step = 0; step < 1; step++) {
 		floyd_algorithm(m00, m00, aux, N / 2);
 		floyd_algorithm(m01, m10, aux2, N / 2);
 		min_matrix_floyd(aux, aux2, m00, N / 2);
