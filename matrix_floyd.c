@@ -40,6 +40,13 @@ void set_zero(int* a, int n)
 }
 
 
+void set_inf(int* a, int n)
+{
+	for (int i = 0; i < (n*n); i++)
+		a[i] = INF;
+}
+
+
 void print_matrix(int* a, int n)
 {
 	for (int i = 0; i < N / 2; i++)
@@ -72,6 +79,11 @@ int main(void)
 	int *m01 = malloc(N*N/4*sizeof(int));
 	int *m10 = malloc(N*N/4*sizeof(int));
 	int *m11 = malloc(N*N/4*sizeof(int));
+	int *ax1 = malloc(N*N/4*sizeof(int));
+	int *a21 = malloc(N*N/4*sizeof(int));
+	int *ax3 = malloc(N*N/4*sizeof(int));
+	int *ax4 = malloc(N*N/4*sizeof(int));
+
 
 	for (int i = 0; i < N/2; i++){
 		for (int j = 0; j < N/2; j++){
@@ -103,14 +115,7 @@ int main(void)
 		floyd_algorithm(m, m, m, N);
 	}
 
-	for (int i = 0; i < N; i++){
-		for (int j = 0; j < N; j++) {
-			if (m[i*N + j] == INF)
-				printf("%d ", 0);
-			else
-				printf("%d ", m[i*N + j]);}
-		printf("\n");}
-	printf("\n");
+	print_matrix(m, N);
 
 
 	for (int i = 0; i < N/2; i++){
@@ -122,14 +127,7 @@ int main(void)
 		}
 	}
 
-	for (int i = 0; i < N; i++) {
-		for (int j = 0; j < N; j++) {
-			if (m[i*N + j] == INF)
-				printf("%d ", 0);
-			else
-				printf("%d ", m[i*N + j]);}
-		printf("\n");}
-	printf("\n\n");
+	print_matrix(m, N);
 
 	free(m00);
 	free(m01);
