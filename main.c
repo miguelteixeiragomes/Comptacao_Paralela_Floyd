@@ -31,10 +31,10 @@ int main(int argc, char **argv)
 
 	for (int i = 0; i < N / 2; i++) {
 		for (int j = 0; j < N / 2; j++) {
-			m00[i*N / 2 + j] = m[i*N + j];
-			m01[i*N / 2 + j] = m[i*N + j + N / 2];
-			m10[i*N / 2 + j] = m[(i + N / 2)*N + j];
-			m11[i*N / 2 + j] = m[(i + N / 2)*N + j + N / 2];
+			m00[i*N / 2 + j] = M[i*N + j];
+			m01[i*N / 2 + j] = M[i*N + j + N / 2];
+			m10[i*N / 2 + j] = M[(i + N / 2)*N + j];
+			m11[i*N / 2 + j] = M[(i + N / 2)*N + j + N / 2];
 		}
 	}
 
@@ -51,26 +51,27 @@ int main(int argc, char **argv)
 		floyd_algorithm(m10, m01, m11, N / 2);
 		floyd_algorithm(m11, m11, m11, N / 2);
 
-		floyd_algorithm(m, m, m, N);
+		floyd_algorithm(M, M, M, N);
 	}
 
-	print_matrix(m, N);
+	print_matrix(M, N);
 
 
 	for (int i = 0; i < N / 2; i++) {
 		for (int j = 0; j < N / 2; j++) {
-			m[i*N + j] = m00[i*N / 2 + j];
-			m[i*N + j + N / 2] = m01[i*N / 2 + j];
-			m[(i + N / 2)*N + j] = m10[i*N / 2 + j];
-			m[(i + N / 2)*N + j + N / 2] = m11[i*N / 2 + j];
+			M[i*N + j] = m00[i*N / 2 + j];
+			M[i*N + j + N / 2] = m01[i*N / 2 + j];
+			M[(i + N / 2)*N + j] = m10[i*N / 2 + j];
+			M[(i + N / 2)*N + j + N / 2] = m11[i*N / 2 + j];
 		}
 	}
 
-	print_matrix(m, N);
+	print_matrix(M, N);
 
 	free(m00);
 	free(m01);
 	free(m10);
 	free(m11);
+	free(M);
 	return 0;
 }
