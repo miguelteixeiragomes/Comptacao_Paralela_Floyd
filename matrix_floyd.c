@@ -89,9 +89,9 @@ int main(void)
 		print_matrix(m00, N / 2);
 
 		printf("m00 * m00\n");
-		floyd_algorithm(m00, m00, aux, N / 2);
+		floyd_algorithm(m00, m00, m00, N / 2);
 		printf("m01 * m10\n");
-		floyd_algorithm(m01, m10, aux2, N / 2);
+		floyd_algorithm(m01, m10, m00, N / 2);
 		break;
 		printf("aux:\n");
 		print_matrix(aux, N / 2);
