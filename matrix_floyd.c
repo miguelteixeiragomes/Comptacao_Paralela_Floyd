@@ -1,56 +1,30 @@
 #include "matrix_floyd.h"
+#define INF 1000000000
 #define N 6
 
 
 int min(int a, int b)
 {
-	if (a == 0)
+	/*if (a == 0)
 		return b;
 	if (b == 0)
-		return a;
+		return a;*/
 	if (b < a)
 		return b;
 	return a;
 }
 
 
-int add(int a, int b)
+void floyd_algorithm(int* A, int* B, int* C, int n)
 {
-	if (a == 0)
-		return 0;
-	if (b == 0)
-		return 0;
-	return a + b;
-	//return (1 - ((a == 0) || (b == 0))) * (a + b);
+	int i, j, k;
+	for (i = 0; i < n; i++)
+		for (j = 0; j < n; j++)
+			for (k = 0; k < n; k++)
+				//printf("i,j,k=(%d,%d,%d) -> C=%d, %d+%d=%d => %d\n", i, j, k, C[n*i + j], A[n*i + k], B[n*k + j], A[n*i + k] + B[n*k + j], min(C[n*i + j], A[n*i + k] + B[n*k + j]));
+				C[n*i + j] = min(C[n*i + j], A[n*i + k] + B[n*k + j]);
 }
 
-
-void floyd_algorithm(int* M, int n)
-{
-	for (int i = 0; i < n; i++)
-		for (int j = 0; j < n; j++)
-			if (i != j)
-				for (int k = 0; k < n; k++)
-					M[n*i + j] = min(M[n*i + j], M[n*i + k] + M[n*k + j]);
-}
-
-
-void floyd_algorithm_2(int* A, int* B, int* C, int n)
-{
-	for (int i = 0; i < n; i++)
-		for (int j = 0; j < n; j++)
-			//if (i != j)
-				for (int k = 0; k < n; k++)
-					C[n*i + j] = min(C[n*i + j], add(A[n*i + k], B[n*k + j]));
-}
-
-
-void add_matrix_floyd(int* A, int* B, int* C, int n)
-{
-	for (int i = 0; i < n; i++)
-		for (int j = 0; j < n; j++)
-			C[n*i + j] = add(A[n*i + j], B[n*i + j]);
-}
 
 void min_matrix_floyd(int* A, int* B, int* C, int n)
 {
@@ -59,11 +33,35 @@ void min_matrix_floyd(int* A, int* B, int* C, int n)
 			C[i] = min(A[i], B[i]);
 }
 
+
 void set_zero(int* a, int n)
 {
 	for (int i = 0; i < (n*n); i++)
 		a[i] = 0;
 }
+
+
+void set_inf(int* a, int n)
+{
+	for (int i = 0; i < (n*n); i++)
+		a[i] = INF;
+}
+
+
+void print_matrix(int* a, int n)
+{
+	for (int i = 0; i < n; i++){
+		for (int j = 0; j < n; j++){
+			if (a[i*n + j] == INF)
+				printf("%d ", 0);
+			else
+				printf("%d ", a[i*n + j]);
+		}
+		printf("\n");
+	}
+	printf("\n");
+}
+
 
 int main(void)
 {
@@ -74,12 +72,15 @@ int main(void)
 				  3, 9, 3, 0, 0, 0,
 				  0, 0, 0, 0, 1, 0};
 
-	int *m00 = calloc(N*N/4, sizeof(int));
-	int *m01 = calloc(N*N/4, sizeof(int));
-	int *m10 = calloc(N*N/4, sizeof(int));
-	int *m11 = calloc(N*N/4, sizeof(int));
-	int *aux = calloc(N*N/4, sizeof(int));
-	int *aux2 = calloc(N*N/4, sizeof(int));
+	for (int i = 0; i < N; i++)
+		for (int j = 0; j < N; j++)
+			if ((i != j) && (m[N*i + j] == 0))
+				m[N*i + j] = INF;
+
+	int *m00 = malloc(N*N/4*sizeof(int));
+	int *m01 = malloc(N*N/4*sizeof(int));
+	int *m10 = malloc(N*N/4*sizeof(int));
+	int *m11 = malloc(N*N/4*sizeof(int));
 
 	for (int i = 0; i < N/2; i++){
 		for (int j = 0; j < N/2; j++){
@@ -90,39 +91,28 @@ int main(void)
 		}
 	}
 
-	for (int step = 0; step < 3; step++) {
-		floyd_algorithm_2(m00, m00, aux, N / 2);
-		floyd_algorithm_2(m01, m10, aux2, N / 2);
-		min_matrix_floyd(aux, aux2, m00, N / 2);
-		set_zero(aux, N/2);
-		set_zero(aux2, N/2);
+	for (int step = 0; step < 10; step++) {
+		floyd_algorithm(m00, m00, m00, N / 2);
+		floyd_algorithm(m01, m10, m00, N / 2);
+		//min_matrix_floyd(ax1, ax2, m00, N / 2);
 
-		floyd_algorithm_2(m00, m01, aux, N / 2);
-		floyd_algorithm_2(m01, m11, aux2, N / 2);
-		min_matrix_floyd(aux, aux2, m01, N / 2);
-		set_zero(aux, N/2);
-		set_zero(aux2, N/2);
+		floyd_algorithm(m00, m01, m01, N / 2);
+		floyd_algorithm(m01, m11, m01, N / 2);
+		//min_matrix_floyd(ax1, ax2, m00, N / 2);
 
-		floyd_algorithm_2(m10, m00, aux, N / 2);
-		floyd_algorithm_2(m11, m10, aux2, N / 2);
-		min_matrix_floyd(aux, aux2, m10, N / 2);
-		set_zero(aux, N/2);
-		set_zero(aux2, N/2);
+		floyd_algorithm(m10, m00, m10, N / 2);
+		floyd_algorithm(m11, m10, m10, N / 2);
+		//min_matrix_floyd(ax1, ax2, m10, N / 2);
 
-		floyd_algorithm_2(m10, m01, aux, N / 2);
-		floyd_algorithm_2(m11, m11, aux2, N / 2);
-		min_matrix_floyd(aux, aux2, m11, N / 2);
-		set_zero(aux, N/2);
-		set_zero(aux2, N/2);
+		floyd_algorithm(m10, m01, m11, N / 2);
+		floyd_algorithm(m11, m11, m11, N / 2);
+		//min_matrix_floyd(ax1, ax2, m11, N / 2);
 
-		floyd_algorithm_2(m, m, m, N);
+
+		floyd_algorithm(m, m, m, N);
 	}
 
-	for (int i = 0; i < N; i++){
-		for (int j = 0; j < N; j++)
-			printf("%d ", m[i*N + j]);
-		printf("\n");}
-	printf("\n");
+	print_matrix(m, N);
 
 
 	for (int i = 0; i < N/2; i++){
@@ -134,23 +124,11 @@ int main(void)
 		}
 	}
 
-	for (int i = 0; i < N; i++){
-		for (int j = 0; j < N; j++)
-			printf("%d ", m[i*N + j]);
-		printf("\n");}
-	printf("\n");
-
-	for (int i = 0; i < N/2; i++) {
-		for (int j = 0; j < N/2; j++)
-			printf("%d ", m10[i*N + j]);
-		printf("\n");
-	}
-	printf("\n\n");
+	print_matrix(m, N);
 
 	free(m00);
 	free(m01);
 	free(m10);
 	free(m11);
-	free(aux);
 	return 0;
 }
