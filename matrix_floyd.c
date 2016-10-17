@@ -83,10 +83,9 @@ int main(void)
 		floyd_algorithm(m00, m00, aux, N / 2);
 		floyd_algorithm(m01, m10, aux2, N / 2);
 
-		for (int i = 0; i < N / 2; i++) {
-			for (int j = 0; j < N / 2; j++) {
+		for (int i = 0; i < N / 2; i++)
+			for (int j = 0; j < N / 2; j++)
 			printf("%d ", aux[i*N/2 + j]);
-		}
 
 		min_matrix_floyd(aux, aux2, m00, N / 2);
 		set_zero(aux, N/2);
