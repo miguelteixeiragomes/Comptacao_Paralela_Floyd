@@ -49,11 +49,18 @@ void set_inf(int* a, int n)
 
 void print_matrix(int* a, int n)
 {
-	for (int i = 0; i < N / 2; i++)
+	for (int i = 0; i < n; i++)
 	{
-		for (int j = 0; j < N / 2; j++)
+		for (int j = 0; j < n; j++)
 		{
-			printf("%d ", a[i*N / 2 + j]);
+			if (a[i*n + j] == INF)
+			{
+				printf("%d ", 0);
+			}
+			else
+			{
+				printf("%d ", a[i*n + j]);
+			}
 		}
 		printf("\n");
 	}
