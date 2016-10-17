@@ -15,24 +15,13 @@ int min(int a, int b)
 }
 
 
-int add(int a, int b)
-{
-	if (a == 0)
-		return 0;
-	if (b == 0)
-		return 0;
-	return a + b;
-	//return (1 - ((a == 0) || (b == 0))) * (a + b);
-}
-
-
 void floyd_algorithm(int* A, int* B, int* C, int n)
 {
 	for (int i = 0; i < n; i++)
 		for (int j = 0; j < n; j++)
-			//if (i != j)
-				for (int k = 0; k < n; k++)
-					C[n*i + j] = min(C[n*i + j], A[n*i + k] + B[n*k + j]);
+			for (int k = 0; k < n; k++)
+				printf("i,j,k=(%d,%d,%d) -> C=%d, %d+%d=%d => %d\n", i, j, k, C[n*i + j], A[n*i + k], B[n*k + j], A[n*i + k] + B[n*k + j], min(C[n*i + j], A[n*i + k] + B[n*k + j]));
+				C[n*i + j] = min(C[n*i + j], A[n*i + k] + B[n*k + j]);
 }
 
 
@@ -98,9 +87,11 @@ int main(void)
 		printf("m00:\n");
 		print_matrix(m00, N / 2);
 
+		printf("m00 * m00\n");
 		floyd_algorithm(m00, m00, aux, N / 2);
+		printf("m01 * m10\n");
 		floyd_algorithm(m01, m10, aux2, N / 2);
-
+		break;
 		printf("aux:\n");
 		print_matrix(aux, N / 2);
 		printf("aux2:\n");
