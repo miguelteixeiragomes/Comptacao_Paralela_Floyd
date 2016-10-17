@@ -2,4 +2,4 @@
 #include <stdlib.h>
 
 int min(int, int);
-void floyd_algorithm(int*, int);
+void floyd_algorithm(int*, int*, int*, int);
