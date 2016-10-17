@@ -5,10 +5,6 @@
 
 int min(int a, int b)
 {
-	/*if (a == 0)
-		return b;
-	if (b == 0)
-		return a;*/
 	if (b < a)
 		return b;
 	return a;
@@ -23,28 +19,6 @@ void floyd_algorithm(int* A, int* B, int* C, int n)
 			for (k = 0; k < n; k++)
 				//printf("i,j,k=(%d,%d,%d) -> C=%d, %d+%d=%d => %d\n", i, j, k, C[n*i + j], A[n*i + k], B[n*k + j], A[n*i + k] + B[n*k + j], min(C[n*i + j], A[n*i + k] + B[n*k + j]));
 				C[n*i + j] = min(C[n*i + j], A[n*i + k] + B[n*k + j]);
-}
-
-
-void min_matrix_floyd(int* A, int* B, int* C, int n)
-{
-	for (int i = 0; i < (n*n); i++)
-		//for (int j = 0; j < n; j++)
-			C[i] = min(A[i], B[i]);
-}
-
-
-void set_zero(int* a, int n)
-{
-	for (int i = 0; i < (n*n); i++)
-		a[i] = 0;
-}
-
-
-void set_inf(int* a, int n)
-{
-	for (int i = 0; i < (n*n); i++)
-		a[i] = INF;
 }
 
 
@@ -94,20 +68,15 @@ int main(void)
 	for (int step = 0; step < 10; step++) {
 		floyd_algorithm(m00, m00, m00, N / 2);
 		floyd_algorithm(m01, m10, m00, N / 2);
-		//min_matrix_floyd(ax1, ax2, m00, N / 2);
 
 		floyd_algorithm(m00, m01, m01, N / 2);
 		floyd_algorithm(m01, m11, m01, N / 2);
-		//min_matrix_floyd(ax1, ax2, m00, N / 2);
 
 		floyd_algorithm(m10, m00, m10, N / 2);
 		floyd_algorithm(m11, m10, m10, N / 2);
-		//min_matrix_floyd(ax1, ax2, m10, N / 2);
 
 		floyd_algorithm(m10, m01, m11, N / 2);
 		floyd_algorithm(m11, m11, m11, N / 2);
-		//min_matrix_floyd(ax1, ax2, m11, N / 2);
-
 
 		floyd_algorithm(m, m, m, N);
 	}
