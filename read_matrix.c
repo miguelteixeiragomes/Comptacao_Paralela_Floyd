@@ -45,7 +45,8 @@ int main(int argc, char **argv)
 	file = fopen(argv[1], "r");
 
 	int N = read_N(file);
-	int* M = read_matrix(file, N);
+	int* M;
+	M = read_matrix(file, N);
 
 	print_matrix(M, N);
 	return 0;
