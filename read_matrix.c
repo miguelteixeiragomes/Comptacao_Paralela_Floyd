@@ -16,7 +16,7 @@ int read_N(FILE* file)
 int* read_matrix(FILE *file, int N)
 {
 	// Allocate matrix pointers to values
-	int *M = malloc(N*N*sizeof(int));
+	int* M = malloc(N*N*sizeof(int));
 	// Read from file to matrix
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N; j++) {
