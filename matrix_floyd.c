@@ -17,9 +17,10 @@ int min(int a, int b)
 
 void floyd_algorithm(int* A, int* B, int* C, int n)
 {
-	for (int i = 0; i < n; i++)
-		for (int j = 0; j < n; j++)
-			for (int k = 0; k < n; k++)
+	int i, j, k;
+	for (i = 0; i < n; i++)
+		for (j = 0; j < n; j++)
+			for (k = 0; k < n; k++)
 				printf("i,j,k=(%d,%d,%d) -> C=%d, %d+%d=%d => %d\n", i, j, k, C[n*i + j], A[n*i + k], B[n*k + j], A[n*i + k] + B[n*k + j], min(C[n*i + j], A[n*i + k] + B[n*k + j]));
 				C[n*i + j] = min(C[n*i + j], A[n*i + k] + B[n*k + j]);
 }
