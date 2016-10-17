@@ -1,13 +1,14 @@
 #include "matrix_floyd.h"
+#define INF 1000000000
 #define N 6
 
 
 int min(int a, int b)
 {
-	if (a == 0)
+	/*if (a == 0)
 		return b;
 	if (b == 0)
-		return a;
+		return a;*/
 	if (b < a)
 		return b;
 	return a;
@@ -25,32 +26,15 @@ int add(int a, int b)
 }
 
 
-void floyd_algorithm(int* M, int n)
-{
-	for (int i = 0; i < n; i++)
-		for (int j = 0; j < n; j++)
-			if (i != j)
-				for (int k = 0; k < n; k++)
-					M[n*i + j] = min(M[n*i + j], M[n*i + k] + M[n*k + j]);
-}
-
-
-void floyd_algorithm_2(int* A, int* B, int* C, int n)
+void floyd_algorithm(int* A, int* B, int* C, int n)
 {
 	for (int i = 0; i < n; i++)
 		for (int j = 0; j < n; j++)
 			//if (i != j)
 				for (int k = 0; k < n; k++)
-					C[n*i + j] = min(C[n*i + j], add(A[n*i + k], B[n*k + j]));
+					C[n*i + j] = min(C[n*i + j], A[n*i + k] + B[n*k + j]);
 }
 
-
-void add_matrix_floyd(int* A, int* B, int* C, int n)
-{
-	for (int i = 0; i < n; i++)
-		for (int j = 0; j < n; j++)
-			C[n*i + j] = add(A[n*i + j], B[n*i + j]);
-}
 
 void min_matrix_floyd(int* A, int* B, int* C, int n)
 {
@@ -73,6 +57,11 @@ int main(void)
 				  0, 0, 0, 0, 1, 0,
 				  3, 9, 3, 0, 0, 0,
 				  0, 0, 0, 0, 1, 0};
+
+	for (int i = 0; i < N; i++)
+		for (int j = 0; j < N; j++)
+			if ((i != j) && (m[N*i + j] == 0))
+				m[N*i + j] = INF;
 
 	int *m00 = calloc(N*N/4, sizeof(int));
 	int *m01 = calloc(N*N/4, sizeof(int));
@@ -119,8 +108,11 @@ int main(void)
 	}
 
 	for (int i = 0; i < N; i++){
-		for (int j = 0; j < N; j++)
-			printf("%d ", m[i*N + j]);
+		for (int j = 0; j < N; j++) {
+			if (m[i*N + j] == INF)
+				printf("%d ", 0);
+			else
+				printf("%d ", m[i*N + j]);}
 		printf("\n");}
 	printf("\n");
 
@@ -134,18 +126,14 @@ int main(void)
 		}
 	}
 
-	for (int i = 0; i < N; i++){
-		for (int j = 0; j < N; j++)
-			printf("%d ", m[i*N + j]);
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			if (m[i*N + j] == INF)
+				printf("%d ", 0);
+			else
+				printf("%d ", m[i*N + j]);}
 		printf("\n");}
 	printf("\n");
-
-	for (int i = 0; i < N/2; i++) {
-		for (int j = 0; j < N/2; j++)
-			printf("%d ", m10[i*N + j]);
-		printf("\n");
-	}
-	printf("\n\n");
 
 	free(m00);
 	free(m01);
