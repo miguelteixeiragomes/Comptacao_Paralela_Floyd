@@ -1,5 +1,6 @@
 #include "matrix_floyd.h"
-#define INF 1000000000
+#include <stdio.h>
+#include <stdlib.h>
 #define N 6
 
 

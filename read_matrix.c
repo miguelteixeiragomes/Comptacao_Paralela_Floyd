@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "matrix_floyd.h"
 
 
@@ -11,7 +9,8 @@ int read_N(FILE* file)
 }
 
 
-int* read_matrix(FILE *file, int N) {
+int* read_matrix(FILE *file, int N)
+{
 	// Allocate matrix pointers to values
 	int *M = malloc(N*N*sizeof(int));
 	// Read from file to matrix
