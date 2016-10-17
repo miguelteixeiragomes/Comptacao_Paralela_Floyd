@@ -37,7 +37,7 @@ void print_matrix(int* a, int n)
 	printf("\n");
 }
 
-
+/*
 int main(void)
 {
 	int m[N*N] = {0, 2, 0, 5, 0, 0,
@@ -102,3 +102,4 @@ int main(void)
 	free(m11);
 	return 0;
 }
+*/
