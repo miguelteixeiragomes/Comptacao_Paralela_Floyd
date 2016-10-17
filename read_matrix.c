@@ -3,6 +3,7 @@
 #include "matrix_floyd.h"
 #include "read_matrix.h"
 
+void print_matrix(int*, int);
 
 int read_N(FILE* file) 
 {
