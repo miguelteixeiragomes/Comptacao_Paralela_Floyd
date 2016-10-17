@@ -1,10 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "matrix_floyd.h"
-#include "read_matrix.h"
-
-void print_matrix(int*, int);
-
 int read_N(FILE* file) 
 {
 	int N;
@@ -32,21 +25,16 @@ int* read_matrix(FILE *file, int N)
 }
 
 
-int main(int argc, char **argv)
+void print_matrix(int* a, int n)
 {
-	// Check file input
-	if (argc < 2) {
-		printf("No input file supplied\n");
-		return 1;
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			if (a[i*n + j] == INF)
+				printf("%d ", 0);
+			else
+				printf("%d ", a[i*n + j]);
+		}
+		printf("\n");
 	}
-
-	// Open input file
-	FILE *file;
-	file = fopen(argv[1], "r");
-
-	int N = read_N(file);
-	int* M = read_matrix(file, N);
-
-	print_matrix(M, N);
-	return 0;
+	printf("\n");
 }
