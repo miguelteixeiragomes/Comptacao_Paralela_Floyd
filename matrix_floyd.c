@@ -56,7 +56,7 @@ void print_matrix(int* a, int n)
 	{
 		for (int j = 0; j < N / 2; j++)
 		{
-			printf("%d ", aux2[i*N / 2 + j]);
+			printf("%d ", a[i*N / 2 + j]);
 		}
 		printf("\n");
 	}
