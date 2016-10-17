@@ -152,6 +152,5 @@ int main(void)
 	free(m10);
 	free(m11);
 	free(aux);
-	printf("input = %d", input);
 	return 0;
 }
