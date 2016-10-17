@@ -85,6 +85,10 @@ int main(void)
 	int *ax2 = malloc(N*N/4*sizeof(int));
 	int *ax3 = malloc(N*N/4*sizeof(int));
 	int *ax4 = malloc(N*N/4*sizeof(int));
+	int *ax5 = malloc(N*N/4*sizeof(int));
+	int *ax6 = malloc(N*N/4*sizeof(int));
+	int *ax7 = malloc(N*N/4*sizeof(int));
+	int *ax8 = malloc(N*N/4*sizeof(int));
 
 
 	for (int i = 0; i < N/2; i++){
@@ -99,27 +103,34 @@ int main(void)
 	for (int step = 0; step < 10; step++) {
 		set_inf(ax1, N / 2);
 		set_inf(ax2, N / 2);
+		set_inf(ax3, N / 2);
+		set_inf(ax4, N / 2);
+		set_inf(ax5, N / 2);
+		set_inf(ax6, N / 2);
+		set_inf(ax7, N / 2);
+		set_inf(ax8, N / 2);
+
 		floyd_algorithm(m00, m00, ax1, N / 2);
 		floyd_algorithm(m01, m10, ax2, N / 2);
+		//min_matrix_floyd(ax1, ax2, m00, N / 2);
+
+		floyd_algorithm(m00, m01, ax3, N / 2);
+		floyd_algorithm(m01, m11, ax4, N / 2);
+		//min_matrix_floyd(ax1, ax2, m00, N / 2);
+
+		floyd_algorithm(m10, m00, ax5, N / 2);
+		floyd_algorithm(m11, m10, ax6, N / 2);
+		//min_matrix_floyd(ax1, ax2, m10, N / 2);
+
+		floyd_algorithm(m10, m01, ax7, N / 2);
+		floyd_algorithm(m11, m11, ax8, N / 2);
+		//min_matrix_floyd(ax1, ax2, m11, N / 2);
+
+
 		min_matrix_floyd(ax1, ax2, m00, N / 2);
-
-		set_inf(ax1, N / 2);
-		set_inf(ax2, N / 2);
-		floyd_algorithm(m00, m01, ax1, N / 2);
-		floyd_algorithm(m01, m11, ax2, N / 2);
-		min_matrix_floyd(ax1, ax2, m00, N / 2);
-
-		set_inf(ax1, N / 2);
-		set_inf(ax2, N / 2);
-		floyd_algorithm(m10, m00, ax1, N / 2);
-		floyd_algorithm(m11, m10, ax2, N / 2);
-		min_matrix_floyd(ax1, ax2, m10, N / 2);
-
-		set_inf(ax1, N / 2);
-		set_inf(ax2, N / 2);
-		floyd_algorithm(m10, m01, ax1, N / 2);
-		floyd_algorithm(m11, m11, ax2, N / 2);
-		min_matrix_floyd(ax1, ax2, m11, N / 2);
+		min_matrix_floyd(ax3, ax4, m00, N / 2);
+		min_matrix_floyd(ax5, ax6, m10, N / 2);
+		min_matrix_floyd(ax7, ax8, m11, N / 2);
 
 
 		floyd_algorithm(m, m, m, N);
