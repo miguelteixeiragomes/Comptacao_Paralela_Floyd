@@ -68,12 +68,10 @@ int main(void)
 			if ((i != j) && (m[N*i + j] == 0))
 				m[N*i + j] = INF;
 
-	int *m00 = calloc(N*N/4, sizeof(int));
-	int *m01 = calloc(N*N/4, sizeof(int));
-	int *m10 = calloc(N*N/4, sizeof(int));
-	int *m11 = calloc(N*N/4, sizeof(int));
-	int *aux = calloc(N*N/4, sizeof(int));
-	int *aux2 = calloc(N*N/4, sizeof(int));
+	int *m00 = malloc(N*N/4*sizeof(int));
+	int *m01 = malloc(N*N/4*sizeof(int));
+	int *m10 = malloc(N*N/4*sizeof(int));
+	int *m11 = malloc(N*N/4*sizeof(int));
 
 	for (int i = 0; i < N/2; i++){
 		for (int j = 0; j < N/2; j++){
@@ -85,62 +83,22 @@ int main(void)
 	}
 
 	for (int step = 0; step < 3; step++) {
-		//printf("m00:\n");
-		print_matrix(m00, N / 2);
-
-		//printf("m00 * m00\n");
 		floyd_algorithm(m00, m00, m00, N / 2);
-		//printf("m01 * m10\n");
 		floyd_algorithm(m01, m10, m01, N / 2);
-		//break;
-		//printf("aux:\n");
-		//print_matrix(aux, N / 2);
-		//printf("aux2:\n");
-		//print_matrix(aux2, N / 2);
-
 		min_matrix_floyd(m00, m01, m00, N / 2);
-
-		//printf("m00:\n");
-		//print_matrix(m00, N / 2);
-
-		set_zero(aux, N/2);
-		set_zero(aux2, N/2);
 
 		floyd_algorithm(m00, m01, m00, N / 2);
 		floyd_algorithm(m01, m11, m01, N / 2);
 		min_matrix_floyd(m00, m01, m00, N / 2);
 
-		//printf("aux:\n");
-		//print_matrix(aux, N / 2);
-		//printf("aux2:\n");
-		//print_matrix(aux2, N / 2);
-
-		set_zero(aux, N/2);
-		set_zero(aux2, N/2);
-
 		floyd_algorithm(m10, m00, m10, N / 2);
 		floyd_algorithm(m11, m10, m11, N / 2);
 		min_matrix_floyd(m10, m11, m10, N / 2);
-
-		/*printf("aux:\n");
-		print_matrix(aux, N / 2);
-		printf("aux2:\n");
-		print_matrix(aux2, N / 2);*/
-
-		set_zero(aux, N/2);
-		set_zero(aux2, N/2);
 
 		floyd_algorithm(m10, m01, m10, N / 2);
 		floyd_algorithm(m11, m11, m11, N / 2);
 		min_matrix_floyd(m10, m11, m11, N / 2);
 
-		/*printf("aux:\n");
-		print_matrix(aux, N / 2);
-		printf("aux2:\n");
-		print_matrix(aux2, N / 2);*/
-
-		set_zero(aux, N/2);
-		set_zero(aux2, N/2);
 
 		floyd_algorithm(m, m, m, N);
 	}
@@ -177,6 +135,5 @@ int main(void)
 	free(m01);
 	free(m10);
 	free(m11);
-	free(aux);
 	return 0;
 }
