@@ -1,5 +1,6 @@
 //#include "matrix_floyd.h"
 #include "read_matrix.h"
+#define INF 1000000000
 
 
 int read_N(FILE* file) 
