@@ -104,6 +104,10 @@ int main(void)
 		print_matrix(aux2, N / 2);
 
 		min_matrix_floyd(aux, aux2, m00, N / 2);
+
+		printf("m00:\n");
+		print_matrix(m00, N / 2);
+
 		set_zero(aux, N/2);
 		set_zero(aux2, N/2);
 
