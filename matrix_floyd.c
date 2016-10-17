@@ -79,7 +79,7 @@ int main(void)
 		}
 	}
 
-	for (int step = 0; step < 1; step++) {
+	for (int step = 0; step < 0; step++) {
 		floyd_algorithm(m00, m00, aux, N / 2);
 		floyd_algorithm(m01, m10, aux2, N / 2);
 		min_matrix_floyd(aux, aux2, m00, N / 2);
@@ -109,9 +109,9 @@ int main(void)
 
 	for (int i = 0; i < N; i++){
 		for (int j = 0; j < N; j++) {
-			/*if (m[i*N + j] == INF)
+			if (m[i*N + j] == INF)
 				printf("%d ", 0);
-			else*/
+			else
 				printf("%d ", m[i*N + j]);}
 		printf("\n");}
 	printf("\n");
@@ -128,9 +128,9 @@ int main(void)
 
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N; j++) {
-			/*if (m[i*N + j] == INF)
+			if (m[i*N + j] == INF)
 				printf("%d ", 0);
-			else*/
+			else
 				printf("%d ", m[i*N + j]);}
 		printf("\n");}
 	printf("\n\n");
