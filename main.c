@@ -81,9 +81,9 @@ int main(int argc, char** argv) {
 
 
 	if (world_rank == 0){
-				/////////////////////
-			//  Root process:  //
-		//////////////////////
+			/////////////////////
+		 //  Root process:  //
+		/////////////////////
 		m = sub_matrices[0];
 		print_matrix(m, size_m);
 		for (int m_i = 0; m_i < Q; m_i++){
@@ -107,6 +107,14 @@ int main(int argc, char** argv) {
 
 
 
+
+
+	int max_inter = (((int)log((double)N)) / log(2.0) + 1);
+	for (int iter = 0; iter <  max_iter; iter++){
+
+
+
+	}
 
 
 
