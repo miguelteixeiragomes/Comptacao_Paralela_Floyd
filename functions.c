@@ -2,7 +2,7 @@
 #include "functions.h"
 
 
-int read_N(FILE* file) 
+int read_N(FILE* file)
 {
 	int N;
 	fscanf(file, "%i", &N);
