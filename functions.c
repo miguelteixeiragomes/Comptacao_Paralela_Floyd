@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #define INF 1000000000
 
 
