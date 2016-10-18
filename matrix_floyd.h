@@ -4,7 +4,6 @@
 
 
 
-#define INF 1000000000
 void floyd_algorithm(int*, int*, int*, int);
 
 

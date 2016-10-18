@@ -1,3 +1,6 @@
+#define INF 1000000000
+
+
 int min(int a, int b)
 {
 	if (b < a)
