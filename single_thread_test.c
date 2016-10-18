@@ -17,7 +17,7 @@ int main(int argc, char **argv)
 	int* M = read_matrix(file, N);
 
 	print_matrix(M, N);
-	
+
 
 	//////////////////////////
 	//Floyd warshall testing//
@@ -47,8 +47,8 @@ int main(int argc, char **argv)
 		floyd_algorithm(m10, m00, m10, N / 2);
 		floyd_algorithm(m11, m10, m10, N / 2);
 
-		floyd_algorithm(m10, m01, m11, N / 2);
-		floyd_algorithm(m11, m11, m11, N / 2);
+		/*floyd_algorithm(m10, m01, m11, N / 2);
+		floyd_algorithm(m11, m11, m11, N / 2);*/
 
 		floyd_algorithm(M, M, M, N);
 	}
