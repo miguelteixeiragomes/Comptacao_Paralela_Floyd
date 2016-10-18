@@ -28,13 +28,17 @@ int main(int argc, char** argv) {
 	int world_rank;
 	MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 
-
 	int size_m = N/Q;
 	int *row_m, *col_m, *m; // the matrices in each process for the calculation
 	row_m = (int*)malloc(size_m*size_m*sizeof(int));
 	col_m = (int*)malloc(size_m*size_m*sizeof(int));
 	m     = (int*)malloc(size_m*size_m*sizeof(int));
 
+	//make cartesian grid communictor
+	MPI_Comm cart_comm;
+	int *dims[2] = {Q, Q};
+	int *periods[2] = {0, 0};
+	MPI_Cart_create(MPI_COMM_WORLD, 2, dims, periods, 1, &cart_comm)
 
 	//Root process
 	if (world_rank == 0){
@@ -67,5 +71,9 @@ int main(int argc, char** argv) {
 
 	// Finalize the MPI environment.
 	MPI_Finalize();
+
+	free(row_m);
+	free(col_m);
+	free(m);
 	return 0;
 }
