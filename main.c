@@ -1,5 +1,4 @@
-#include "matrix_floyd.h"
-#include "read_matrix.h"
+#include "functions.h"
 
 
 int main(int argc, char **argv)
