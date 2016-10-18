@@ -60,3 +60,26 @@ void floyd_algorithm(int* A, int* B, int* C, int n)
 			for (k = 0; k < n; k++)
 				C[n*i + j] = min(C[n*i + j], A[n*i + k] + B[n*k + j]);
 }
+
+
+int check_sizes(int N, int world_size) // returns 0 for invalid sizes, else returns the side of the processors 'matrix' Q.
+{
+		int Q = (int)sqrtf((double)world_size);
+
+		if (Q*Q != world_size){
+			if ((Q + 1)*(Q + 1) != world_size){
+				printf("Invalid number of processes. %d is not a perfect square.\n", world_size);
+				return 0;
+			}
+			else{
+				Q++;
+			}
+		}
+
+
+		if (N % Q != 0){
+			printf("The size N of the matrix must be divisable by the square root of the number of processes.\n");
+			return 0;
+		}
+		return Q;
+}

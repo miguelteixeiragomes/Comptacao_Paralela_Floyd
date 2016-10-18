@@ -74,3 +74,6 @@ int main(int argc, char **argv)
 	free(M);
 	return 0;
 }
+
+
+printf("Can't matrix of size %d among %d processes", world_size, N);
