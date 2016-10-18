@@ -3,30 +3,12 @@
 
 
 int main(int argc, char** argv) {
-	// Check file input
-	if (argc < 2) {
-		printf("No input file supplied\n");
-		return 1;
-	}
-
-	// Open input file
-	FILE *file;
-	file = fopen(argv[1], "r");
-
-	int N = read_N(file);
-	int* M = read_matrix(file, N);
-
-
 	// Initialize the MPI environment
 	MPI_Init(NULL, NULL);
 
 	// Get the number of processes
 	int world_size;
 	MPI_Comm_size(MPI_COMM_WORLD, &world_size);
-
-	// Get the rank of the process
-	int world_rank;
-	MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 
 	int size_m = N/Q;
 	int *row_m, *col_m, *m; // the matrices in each process for the calculation
@@ -37,16 +19,37 @@ int main(int argc, char** argv) {
 	//make cartesian grid communictor
 	MPI_Comm cart_comm;
 	int *dims[2] = {Q, Q};
-	int *periods[2] = {0, 0};
+	int *periods[2] = {1, 1};
 	MPI_Cart_create(MPI_COMM_WORLD, 2, dims, periods, 1, &cart_comm)
 
-	//Root process
+	// Get the rank of the process
+	int world_rank;
+	MPI_Comm_rank(cart_comm, &world_rank);
+
+
+	   ////////////////////////////////////////////
+	  // Initiation of the matrix and broadcast //
+	 //  Root process:                         //
+	////////////////////////////////////////////
 	if (world_rank == 0){
+		// Check file input
+		if (argc < 2) {
+			printf("No input file supplied\n");
+			return 1;
+		}
+
+		// Open input file
+		FILE *file;
+		file = fopen(argv[1], "r");
+
+		int N = read_N(file);
+		int* M = read_matrix(file, N);
+
 		int Q = check_sizes(N, world_size); // check if the num of processes is good.
 		if (Q == 0) {
 			return 1;
 		}
-		print_matrix(M, N);
+		print_matrix(M, N); // see original matrix
 
 		// divide the matrix in blocks
 		int m_i, m_j, i, j, **matrices = (int**)malloc(Q*Q*sizeof(int*));
@@ -60,10 +63,28 @@ int main(int argc, char** argv) {
 		}}
 		free(M);
 
-
-
-
+		for (m_i = 0; m_i < Q; m_i++){
+			for (m_j = 0; m_j < Q; m_j++){
+				int rank;
+				int *coord = (int*)malloc(2*sizeof(int));
+				coord[0] = m_i;
+				coord[1] = m_j;
+				MPI_Cart_rank(cart_comm, coord, &rank);
+				MPI_Send(matrices[Q*m_i + m_j], size_m*size_m, MPI_INT, rank, 0, cart_comm);
+			}
+		}
 	}
+	  /////////////////////
+	 // All other ranks //
+	/////////////////////
+	else{
+		MPI_Recv(m, size_m*size_m, MPI_INT, 0, 0, cart_comm, MPI_STATUS_IGNORE);
+		print_matrix(m, size_m);
+	}
+
+
+
+
 
 
 
