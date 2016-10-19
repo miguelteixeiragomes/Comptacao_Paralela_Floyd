@@ -131,49 +131,53 @@ int main(int argc, char** argv) {
 		 // All other ranks //
 		/////////////////////
 		MPI_Recv(m, size_m*size_m, MPI_INT, 0, 0, cart_comm, MPI_STATUS_IGNORE);
-		//printf("my rank: %d\n", world_rank);
-		//print_matrix(m, size_m);
+
 	}
+	MPI_Barrier(cart_comm);
+
 
 		////////////////////
 	 // Fox algorithm  //
 	////////////////////
 	int max_iter = (((int)log((double)N)) / log(2.0) + 1);
-	for (int iter = 0; iter <  max_iter; iter++) {
+	for (int iter = 0; iter < 1/*max_iter*/; iter++) {
 		floyd_algorithm(m, m, m, size_m);
 		memcpy(row_m, m, size_m*size_m*sizeof(int));
 		memcpy(col_m, m, size_m*size_m*sizeof(int));
-		for (int s = 0; s < (Q - 1); s++){
+		for (int s = 0; s < 1/*(Q - 1)*/; s++){
 			int coord[2];
 			MPI_Cart_coords(cart_comm, world_rank, 2, coord);
+			printf("coords: %d,%d\n", coord[0], coord[1]);
 			int coord_row_source[2] = {coord[0], mod(coord[1] + 1, Q)};
 			int coord_col_source[2] = {mod(coord[0] + 1, Q), coord[1]};
 			int coord_row_dest[2] = { coord[0], mod(coord[1] - 1, Q) };
 			int coord_col_dest[2] = { mod(coord[0] - 1, Q), coord[1] };
-			int my_rank, rank_row_source, rank_col_source, rank_row_dest, rank_col_dest;
+			/*int my_rank, rank_row_source, rank_col_source, rank_row_dest, rank_col_dest;
 			MPI_Cart_rank(cart_comm, coord, &my_rank);
 			MPI_Cart_rank(cart_comm, coord_row_source, &rank_row_source);
 			MPI_Cart_rank(cart_comm, coord_col_source, &rank_col_source);
 			MPI_Cart_rank(cart_comm, coord_row_dest, &rank_row_dest);
 			MPI_Cart_rank(cart_comm, coord_col_dest, &rank_col_dest);
 
-			printf("col coord %d, %d\n\n", coord_col_source[0], coord_col_source[1]);
-			//printf("my rank %d -> row %d, col %d", my_rank, row_rank, col_rank);
-			int stt = MPI_Sendrecv_replace(row_m, size_m*size_m, MPI_INT, rank_row_dest, 0, rank_row_source, 0, cart_comm, MPI_STATUS_IGNORE);
-			//printf("sendrcv row with ranks: %d -> %d with status %d\n", my_rank, rank_row_source, stt);
+			//printf("rank %d with coord %d,%d  ->  row send rank %d with coord %d,%d\n\n", my_rank, coord[0], coord[1], rank_row_source, coord_row_source[0], coord_row_source[1]);
+			//printf("rank %d with coord %d,%d  ->  col send rank %d with coord %d,%d\n\n", my_rank, coord[0], coord[1], rank_col_source, coord_col_source[0], coord_col_source[1]);
+			//printf("rank %d with coord %d,%d  ->  row recv rank %d with coord %d,%d\n\n", my_rank, coord[0], coord[1], rank_row_dest, coord_row_dest[0], coord_row_dest[1]);
+			//printf("rank %d with coord %d,%d  ->  col recv rank %d with coord %d,%d\n\n", my_rank, coord[0], coord[1], rank_col_dest, coord_col_dest[0], coord_col_dest[1]);
+
+			//MPI_Barrier(cart_comm);
+			MPI_Sendrecv_replace(row_m, size_m*size_m, MPI_INT, rank_row_dest, 0, rank_row_source, 0, cart_comm, MPI_STATUS_IGNORE);
 			MPI_Sendrecv_replace(col_m, size_m*size_m, MPI_INT, rank_col_dest, 0, rank_col_source, 0, cart_comm, MPI_STATUS_IGNORE);
-			//printf("sendrcv col with ranks: %d -> %d\n", my_rank, rank_col_source);
-			floyd_algorithm(row_m, col_m, m, size_m);
+			floyd_algorithm(row_m, col_m, m, size_m);*/
 		}
-		printf("done step %d of %d\n", iter, max_iter);
+		//printf("done step %d of %d\n", iter, max_iter);
 	}
 
 
 
 
 
-	printf("my rank: %d\n", world_rank);
-	print_matrix(m, size_m);
+	//printf("my rank: %d\n", world_rank);
+	//print_matrix(m, size_m);
 
 	// Finalize the MPI environment.
 	MPI_Finalize();
@@ -184,3 +188,6 @@ int main(int argc, char** argv) {
 	free(sub_matrices);
 	return 0;
 }
+
+// to run:
+// clear; mpicc functions.c main.c -o floyd.exe -lm; mpirun -np 4 floyd.exe ex_mat.txt; rm -f floyd.exe
