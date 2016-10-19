@@ -2,6 +2,28 @@
 #include "functions.h"
 
 
+MPI_Comm* generate_row_comms(int Q, MPI_Comm cart_comm)
+{
+	MPI_Group cart_group;
+	MPI_Comm_group(cart_comm, &cart_group);
+	int **row_ranks = (int**)malloc(Q*sizeof(int*));
+	MPI_Comm *row_comms = (MPI_Comm*)malloc(Q*sizeof(MPI_Comm));
+	for (int i = 0;  i < Q; i++){
+		row_ranks[i] = (int*)malloc(Q*sizeof(int));
+		for (int j = 0;  j < Q; j++){
+				int coord[2] = {i, j};
+				int rank;
+				MPI_Cart_rank(cart_comm, coord, &rank);
+				row_ranks[i][j] = rank;
+		}
+		MPI_Group row_group;
+		MPI_Group_incl(cart_group, Q, row_ranks[i], &row_group);
+		MPI_Comm_create(cart_comm, row_group, &row_comms[i]);
+	}
+	return row_comms;
+}
+
+
 int main(int argc, char** argv) {
 	// Initialize the MPI environment
 	MPI_Init(NULL, NULL);
@@ -19,6 +41,26 @@ int main(int argc, char** argv) {
 	int dims[2] = {Q, Q};
 	int periods[2] = {1, 1};
 	MPI_Cart_create(MPI_COMM_WORLD, 2, dims, periods, 1, &cart_comm);
+
+
+	MPI_Comm *row_comms = generate_row_comms(Q, cart_comm);
+	/*MPI_Group cart_group;
+	MPI_Comm_group(cart_comm, &cart_group);
+	int **row_ranks = (int**)malloc(Q*sizeof(int*));
+	MPI_Comm *row_comms = (MPI_Comm*)malloc(Q*sizeof(MPI_Comm));
+	for (int i = 0;  i < Q; i++){
+		row_ranks[i] = (int*)malloc(Q*sizeof(int));
+		for (int j = 0;  j < Q; j++){
+				int coord[2] = {i, j};
+				int rank;
+				MPI_Cart_rank(cart_comm, coord, &rank);
+				row_ranks[i][j] = rank;
+		}
+		MPI_Group row_group;
+		MPI_Group_incl(cart_group, Q, row_ranks[i], &row_group);
+		MPI_Comm_create(cart_comm, row_group, &row_comms[i]);
+	}*/
+
 
 	// Get the rank of the process
 	int world_rank;
@@ -62,7 +104,7 @@ int main(int argc, char** argv) {
 				for (int i = 0; i < size_m; i++)
 					for (int j = 0; j < size_m; j++)
 						sub_matrices[Q*m_i + m_j][size_m*i + j] = M[N*(m_i*size_m + i) + m_j*size_m + j];
-				//print_matrix(matrices[Q*m_i + m_j], size_m); // to check validity of the division of the matrix
+				//print_matrix(sub_matrices[Q*m_i + m_j], size_m); // to check validity of the division of the matrix
 			}
 		}
 		free(M);
@@ -85,6 +127,7 @@ int main(int argc, char** argv) {
 		 //  Root process:  //
 		/////////////////////
 		m = sub_matrices[0];
+		printf("my rank: %d\n", world_rank);
 		print_matrix(m, size_m);
 		for (int m_i = 0; m_i < Q; m_i++){
 			for (int m_j = 0; m_j < Q; m_j++){
@@ -102,6 +145,7 @@ int main(int argc, char** argv) {
 		 // All other ranks //
 		/////////////////////
 		MPI_Recv(m, size_m*size_m, MPI_INT, 0, 0, cart_comm, MPI_STATUS_IGNORE);
+		printf("my rank: %d\n", world_rank);
 		print_matrix(m, size_m);
 	}
 
@@ -109,9 +153,8 @@ int main(int argc, char** argv) {
 
 
 
-	int max_inter = (((int)log((double)N)) / log(2.0) + 1);
-	for (int iter = 0; iter <  max_iter; iter++){
-
+	int max_iter = (((int)log((double)N)) / log(2.0) + 1);
+	for (int iter = 0; iter <  max_iter; iter++) {
 
 
 	}
