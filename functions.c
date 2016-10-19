@@ -18,7 +18,6 @@ int* read_matrix(FILE *file, int N)
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N; j++) {
 			if (!fscanf(file, "%i", &M[N*i + j])) {
-				fclose(file);
 				return 0;
 			}
 			if ((i != j) && (M[N*i + j] == 0))

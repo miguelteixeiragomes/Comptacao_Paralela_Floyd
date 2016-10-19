@@ -1,4 +1,7 @@
 #include <mpi.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "functions.h"
 
 
@@ -43,23 +46,7 @@ int main(int argc, char** argv) {
 	MPI_Cart_create(MPI_COMM_WORLD, 2, dims, periods, 1, &cart_comm);
 
 
-	MPI_Comm *row_comms = generate_row_comms(Q, cart_comm);
-	/*MPI_Group cart_group;
-	MPI_Comm_group(cart_comm, &cart_group);
-	int **row_ranks = (int**)malloc(Q*sizeof(int*));
-	MPI_Comm *row_comms = (MPI_Comm*)malloc(Q*sizeof(MPI_Comm));
-	for (int i = 0;  i < Q; i++){
-		row_ranks[i] = (int*)malloc(Q*sizeof(int));
-		for (int j = 0;  j < Q; j++){
-				int coord[2] = {i, j};
-				int rank;
-				MPI_Cart_rank(cart_comm, coord, &rank);
-				row_ranks[i][j] = rank;
-		}
-		MPI_Group row_group;
-		MPI_Group_incl(cart_group, Q, row_ranks[i], &row_group);
-		MPI_Comm_create(cart_comm, row_group, &row_comms[i]);
-	}*/
+	//MPI_Comm *row_comms = generate_row_comms(Q, cart_comm);
 
 
 	// Get the rank of the process
@@ -87,6 +74,7 @@ int main(int argc, char** argv) {
 
 		N = read_N(file);
 		int* M = read_matrix(file, N); // the matrix
+		fclose(file);
 
 		Q = check_sizes(N, world_size); // check if the num of processes is good.
 		if (Q == 0) {
@@ -127,14 +115,12 @@ int main(int argc, char** argv) {
 		 //  Root process:  //
 		/////////////////////
 		m = sub_matrices[0];
-		printf("my rank: %d\n", world_rank);
-		print_matrix(m, size_m);
+		//printf("my rank: %d\n", world_rank);
+		//print_matrix(m, size_m);
 		for (int m_i = 0; m_i < Q; m_i++){
 			for (int m_j = 0; m_j < Q; m_j++){
 				int rank;
-				int *coord = (int*)malloc(2*sizeof(int));
-				coord[0] = m_i;
-				coord[1] = m_j;
+				int coord[2] = {m_i, m_j};
 				MPI_Cart_rank(cart_comm, coord, &rank);
 				MPI_Send(sub_matrices[Q*m_i + m_j], size_m*size_m, MPI_INT, rank, 0, cart_comm);
 			}
@@ -145,24 +131,46 @@ int main(int argc, char** argv) {
 		 // All other ranks //
 		/////////////////////
 		MPI_Recv(m, size_m*size_m, MPI_INT, 0, 0, cart_comm, MPI_STATUS_IGNORE);
-		printf("my rank: %d\n", world_rank);
-		print_matrix(m, size_m);
+		//printf("my rank: %d\n", world_rank);
+		//print_matrix(m, size_m);
 	}
 
-
-
-
-
+		////////////////////
+	 // Fox algorithm  //
+	////////////////////
 	int max_iter = (((int)log((double)N)) / log(2.0) + 1);
 	for (int iter = 0; iter <  max_iter; iter++) {
-
-
+		floyd_algorithm(m, m, m, size_m);
+		memcpy(row_m, m, size_m*size_m*sizeof(int));
+		memcpy(col_m, m, size_m*size_m*sizeof(int));
+		for (int s = 0; s < (Q - 1); s++){
+			int coord[2];
+			MPI_Cart_coords(cart_comm, world_rank, 2, coord);
+			int coord_row[2] = {coord[0], (coord[1] + 1) % Q};
+			int coord_col[2] = {(coord[0] + 1) % Q, coord[1]};
+			int my_rank, row_rank, col_rank;
+			MPI_Cart_rank(cart_comm, coord, &my_rank);
+			printf("my coord %d, %d\n", coord[0], coord[1]);
+			MPI_Cart_rank(cart_comm, coord_row, &row_rank);
+			printf("row coord %d, %d\n", coord_row[0], coord_row[1]);
+			MPI_Cart_rank(cart_comm, coord_col, &col_rank);
+			printf("col coord %d, %d\n\n", coord_col[0], coord_col[1]);
+			//printf("my rank %d -> row %d, col %d", my_rank, row_rank, col_rank);
+			int stt = MPI_Sendrecv_replace(row_m, size_m*size_m, MPI_INT, row_rank, 0, my_rank, 0, cart_comm, MPI_STATUS_IGNORE);
+			printf("sendrcv row with ranks: %d -> %d with status %d\n", my_rank, row_rank, stt);
+			MPI_Sendrecv_replace(col_m, size_m*size_m, MPI_INT, col_rank, 0, my_rank, 0, cart_comm, MPI_STATUS_IGNORE);
+			printf("sendrcv col with ranks: %d -> %d\n", my_rank, col_rank);
+			floyd_algorithm(row_m, col_m, m, size_m);
+		}
+		printf("done step %d of %d\n", iter, max_iter);
 	}
 
 
 
 
 
+	printf("my rank: %d\n", world_rank);
+	print_matrix(m, size_m);
 
 	// Finalize the MPI environment.
 	MPI_Finalize();
@@ -170,5 +178,6 @@ int main(int argc, char** argv) {
 	free(row_m);
 	free(col_m);
 	free(m);
+	free(sub_matrices);
 	return 0;
 }
