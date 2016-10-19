@@ -43,6 +43,12 @@ void print_matrix(int* a, int n)
 }
 
 
+int mod(int a, int b)
+{
+	return ((a % b) + b) % b;
+}
+
+
 int min(int a, int b)
 {
 	if (b < a)

@@ -13,6 +13,7 @@ int* read_matrix(FILE*, int);
 void print_matrix(int*, int);
 void floyd_algorithm(int*, int*, int*, int);
 int check_sizes(int, int);
+int mod(int, int);
 
 
 
