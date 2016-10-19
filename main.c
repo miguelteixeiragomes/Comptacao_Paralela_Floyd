@@ -146,20 +146,23 @@ int main(int argc, char** argv) {
 		for (int s = 0; s < (Q - 1); s++){
 			int coord[2];
 			MPI_Cart_coords(cart_comm, world_rank, 2, coord);
-			int coord_row[2] = {coord[0], (coord[1] + 1) % Q};
-			int coord_col[2] = {(coord[0] + 1) % Q, coord[1]};
-			int my_rank, row_rank, col_rank;
+			int coord_row_source[2] = {coord[0], mod(coord[1] + 1, Q)};
+			int coord_col_source[2] = {mod(coord[0] + 1, Q), coord[1]};
+			int coord_row_dest[2] = { coord[0], mod(coord[1] - 1, Q) };
+			int coord_col_dest[2] = { mod(coord[0] - 1, Q), coord[1] };
+			int my_rank, rank_row_source, rank_col_source, rank_row_dest, rank_col_dest;
 			MPI_Cart_rank(cart_comm, coord, &my_rank);
-			printf("my coord %d, %d\n", coord[0], coord[1]);
-			MPI_Cart_rank(cart_comm, coord_row, &row_rank);
-			printf("row coord %d, %d\n", coord_row[0], coord_row[1]);
-			MPI_Cart_rank(cart_comm, coord_col, &col_rank);
-			printf("col coord %d, %d\n\n", coord_col[0], coord_col[1]);
+			MPI_Cart_rank(cart_comm, coord_row_source, &rank_row_source);
+			MPI_Cart_rank(cart_comm, coord_col_source, &rank_col_source);
+			MPI_Cart_rank(cart_comm, coord_row_dest, &rank_row_dest);
+			MPI_Cart_rank(cart_comm, coord_col_dest, &rank_col_dest);
+
+			printf("col coord %d, %d\n\n", coord_col_source[0], coord_col_source[1]);
 			//printf("my rank %d -> row %d, col %d", my_rank, row_rank, col_rank);
-			int stt = MPI_Sendrecv_replace(row_m, size_m*size_m, MPI_INT, row_rank, 0, my_rank, 0, cart_comm, MPI_STATUS_IGNORE);
-			printf("sendrcv row with ranks: %d -> %d with status %d\n", my_rank, row_rank, stt);
-			MPI_Sendrecv_replace(col_m, size_m*size_m, MPI_INT, col_rank, 0, my_rank, 0, cart_comm, MPI_STATUS_IGNORE);
-			printf("sendrcv col with ranks: %d -> %d\n", my_rank, col_rank);
+			int stt = MPI_Sendrecv_replace(row_m, size_m*size_m, MPI_INT, rank_row_dest, 0, rank_row_source, 0, cart_comm, MPI_STATUS_IGNORE);
+			//printf("sendrcv row with ranks: %d -> %d with status %d\n", my_rank, rank_row_source, stt);
+			MPI_Sendrecv_replace(col_m, size_m*size_m, MPI_INT, rank_col_dest, 0, rank_col_source, 0, cart_comm, MPI_STATUS_IGNORE);
+			//printf("sendrcv col with ranks: %d -> %d\n", my_rank, rank_col_source);
 			floyd_algorithm(row_m, col_m, m, size_m);
 		}
 		printf("done step %d of %d\n", iter, max_iter);
