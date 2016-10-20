@@ -44,6 +44,13 @@ MPI_Comm* generate_col_comms(int Q, MPI_Comm cart_comm)
 		MPI_Group_incl(cart_group, Q, col_ranks[i], &col_group);
 		MPI_Comm_create(cart_comm, col_group, &col_comms[i]);
 	}
+	for(int i = 0; i < Q; i++){
+		printf("Collumm Comm: \n", );
+		for(int j = 0; j < Q; j++){
+			printf("%d ", col_ranks[i][j]);
+		}
+		printf("\n");
+	}
 	return col_comms;
 }
 
@@ -147,7 +154,7 @@ int main(int argc, char** argv) {
 			}
 		}
 	}
-	else{
+	/*else{
 			/////////////////////
 		 // All other ranks //
 		/////////////////////
@@ -185,7 +192,7 @@ int main(int argc, char** argv) {
 			MPI_Bcast(row_m, size_m*size_m, MPI_INT, row_root, row_comms[coord[0]]);
 
 
-			/*MPI_Cart_coords(cart_comm, world_rank, 2, coord);
+			MPI_Cart_coords(cart_comm, world_rank, 2, coord);
 			MPI_Cart_rank(cart_comm, coord, &my_rank);
 			aux_coord[0] = coord[0];
 			aux_coord[1] = mod(coord[1] + 1, Q);
@@ -198,14 +205,14 @@ int main(int argc, char** argv) {
 			MPI_Cart_rank(cart_comm, aux_coord, &rank_row_dest);
 			aux_coord[0] = mod(coord[0] - 1, Q);
 			aux_coord[1] = coord[1];
-			MPI_Cart_rank(cart_comm, aux_coord, &rank_col_dest);*/
+			MPI_Cart_rank(cart_comm, aux_coord, &rank_col_dest);
 
 			//MPI_Sendrecv_replace(row_m, size_m*size_m, MPI_INT, rank_row_dest, 0, rank_row_source, 0, cart_comm, MPI_STATUS_IGNORE);
 			//MPI_Sendrecv_replace(col_m, size_m*size_m, MPI_INT, rank_col_dest, 0, rank_col_source, 0, cart_comm, MPI_STATUS_IGNORE);
 			//floyd_algorithm(row_m, col_m, m, size_m);
 		}
 		//printf("done step %d of %d\n", iter, max_iter);
-	}
+	}*/
 
 
 
