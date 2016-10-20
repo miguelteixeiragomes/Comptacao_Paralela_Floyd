@@ -208,6 +208,7 @@ int main(int argc, char** argv) {
 		MPI_Send(m, size_m*size_m, MPI_INT, 0, 0, cart_comm);
 	}
 	else{
+		sub_matrices[0] = m
 		for (int i = 0; i < Q; i++){
 			for (int j = 0; j < Q; j++){
 				if ((i != 0) && (j != 0)){
@@ -219,6 +220,7 @@ int main(int argc, char** argv) {
 			}
 		}
 	}
+	MPI_Barrier(cart_comm);
 
 	if (world_rank == 0) {
 		for (int m_i = 0; m_i < Q; m_i++) {
