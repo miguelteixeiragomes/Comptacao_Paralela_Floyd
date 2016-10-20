@@ -227,7 +227,7 @@ int main(int argc, char** argv) {
 					M[N*(m_i*size_m + i) + m_j*size_m + j] = sub_matrices[Q*m_i + m_j][size_m*i + j];*/
 
 
-	if (world_rank != 0){
+	if (world_rank == 0){
 		print_matrix(M, N);
 	}
 	/*printf("rank: %d\n", world_rank);
