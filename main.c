@@ -26,6 +26,26 @@ MPI_Comm* generate_row_comms(int Q, MPI_Comm cart_comm)
 	return row_comms;
 }
 
+MPI_Comm* generate_col_comms(int Q, MPI_Comm cart_comm)
+{
+	MPI_Group cart_group;
+	MPI_Comm_group(cart_comm, &cart_group);
+	int **col_ranks = (int **)malloc(Q*sizeof(int*));
+	MPI_Comm *col_comms = (MPI_Comm *)malloc(Q*sizeof(MPI_Comm));
+	for(int i = 0; i < Q; i++){
+		col_ranks[i] = (int *)malloc(Q*sizeof(int));
+		for(int j = 0; j < Q; j++){
+			int coord[2] = {j, i};
+			int rank;
+			MPI_Cart_rank(cart_comm, coord, &rank);
+			col_ranks[i][j] = rank;
+		}
+		MPI_Group col_group;
+		MPI_Group_incl(cart_group, Q, col_ranks[i], &col_group);
+		MPI_Comm_create(cart_comm, col_group, &col_comms[i]);
+	}
+	return col_comms;
+}
 
 int main(int argc, char** argv) {
 	// Initialize the MPI environment
@@ -46,7 +66,8 @@ int main(int argc, char** argv) {
 	MPI_Cart_create(MPI_COMM_WORLD, 2, dims, periods, 1, &cart_comm);
 
 
-	//MPI_Comm *row_comms = generate_row_comms(Q, cart_comm);
+	MPI_Comm *row_comms = generate_row_comms(Q, cart_comm);
+	MPI_Comm *col_comms = generate_col_comms(Q, cart_comm);
 
 
 	// Get the rank of the process
@@ -111,7 +132,7 @@ int main(int argc, char** argv) {
 
 
 	if (world_rank == 0){
-			/////////////////////
+			////////////////////
 		 //  Root process:  //
 		/////////////////////
 		m = sub_matrices[0];
