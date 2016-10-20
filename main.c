@@ -223,7 +223,7 @@ int main(int argc, char** argv) {
 	MPI_Barrier(cart_comm);
 
 	if (world_rank == 0) {
-		for (int m_i = 0; m_i < Q; m_i++) {
+		/*for (int m_i = 0; m_i < Q; m_i++) {
 			for (int m_j = 0; m_j < Q; m_j++) {
 				for (int i = 0; i < size_m; i++) {
 					for (int j = 0; j < size_m; j++) {
@@ -231,7 +231,7 @@ int main(int argc, char** argv) {
 					}
 				}
 			}
-		}
+		}*/
 		print_matrix(M, N);
 	}
 
