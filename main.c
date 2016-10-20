@@ -256,4 +256,4 @@ int main(int argc, char** argv) {
 
 // run a bunch of times
 // clear; mpicc functions.c main.c -o floyd.exe -lm; for i in {1..20}; do mpirun -np 4 floyd.exe ex_mat.txt; done; rm -f floyd.exe
-// yo
+// yoyo
