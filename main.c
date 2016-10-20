@@ -233,8 +233,8 @@ int main(int argc, char** argv) {
 		print_matrix(M, N);
 	}
 
-	/*printf("rank: %d\n", world_rank);
-	print_matrix(m, size_m);*/
+	printf("rank: %d\n", world_rank);
+	print_matrix(m, size_m);
 
 
 	  /////////////////////////////
