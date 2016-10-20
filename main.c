@@ -243,11 +243,11 @@ int main(int argc, char** argv) {
 	// Finalize the MPI environment.
 	MPI_Finalize();
 
-	free(row_m);
+	/*free(row_m);
 	free(col_m);
 	free(m);
 	free(sub_matrices);
-	free(M);
+	free(M);*/
 	return 0;
 }
 
