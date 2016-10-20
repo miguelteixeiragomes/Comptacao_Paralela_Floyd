@@ -80,8 +80,8 @@ int main(int argc, char** argv) {
 	 // Initiation of the matrix and broadcast //
 	////////////////////////////////////////////
 	if (world_rank == 0){
-			  /////////////////////
-			//  Root process:  //
+		  /////////////////////
+		 //  Root process:  //
 	 	//////////////////////
 
 		// Check file input
@@ -102,7 +102,6 @@ int main(int argc, char** argv) {
 		if (Q == 0) {
 			return 1;
 		}
-		print_matrix(M, N); // see original matrix - depois sai
 
 		// divide the matrix in blocks
 		size_m = N/Q;
@@ -114,7 +113,6 @@ int main(int argc, char** argv) {
 				for (int i = 0; i < size_m; i++)
 					for (int j = 0; j < size_m; j++)
 						sub_matrices[Q*m_i + m_j][size_m*i + j] = M[N*(m_i*size_m + i) + m_j*size_m + j];
-				//print_matrix(sub_matrices[Q*m_i + m_j], size_m); // to check validity of the division of the matrix
 			}
 		}
 	}
@@ -129,7 +127,6 @@ int main(int argc, char** argv) {
 	row_m = (int*)malloc(size_m*size_m*sizeof(int));
 	col_m = (int*)malloc(size_m*size_m*sizeof(int));
 	m     = (int*)malloc(size_m*size_m*sizeof(int));
-	//set_inf(m, size_m);
 
 	if (world_rank == 0){
 		  /////////////////////
@@ -197,10 +194,8 @@ int main(int argc, char** argv) {
 
 			floyd_algorithm(row_m, col_m, m, size_m);
 		}
-		//printf("done step %d of %d\n", iter, max_iter);
 	}
 
-	MPI_Barrier(cart_comm);
 	  ///////////////////////
 	 //  gather matrices  //
 	///////////////////////
@@ -208,21 +203,19 @@ int main(int argc, char** argv) {
 		MPI_Send(m, size_m*size_m, MPI_INT, 0, 0, cart_comm);
 	}
 	else{
-		sub_matrices[0] = m;
 		for (int i = 0; i < Q; i++){
 			for (int j = 0; j < Q; j++){
-				if ((i != 0) && (j != 0)){
+				if ((i != 0) || (j != 0)){
 					int rank;
 					int coord[2] = {i, j};
 					MPI_Cart_rank(cart_comm, coord, &rank);
-					MPI_Recv(sub_matrices[i*Q + j], size_m*size_m, MPI_INT, world_rank, 0, cart_comm, MPI_STATUS_IGNORE);
+					MPI_Recv(sub_matrices[i*Q + j], size_m*size_m, MPI_INT, rank, 0, cart_comm, MPI_STATUS_IGNORE);
 				}
 			}
 		}
 	}
-	MPI_Barrier(cart_comm);
 
-	/*if (world_rank == 0) {
+	if (world_rank == 0) {
 		for (int m_i = 0; m_i < Q; m_i++) {
 			for (int m_j = 0; m_j < Q; m_j++) {
 				for (int i = 0; i < size_m; i++) {
@@ -233,11 +226,7 @@ int main(int argc, char** argv) {
 			}
 		}
 		print_matrix(M, N);
-	}*/
-
-	printf("rank: %d\n", world_rank);
-	print_matrix(m, size_m);
-
+	}
 
 	  /////////////////////////////
 	 //  free allocated memory  //
