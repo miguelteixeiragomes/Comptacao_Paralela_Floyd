@@ -243,11 +243,11 @@ int main(int argc, char** argv) {
 	// Finalize the MPI environment.
 	MPI_Finalize();
 
-	/*free(row_m);
+	free(row_m);
 	free(col_m);
 	free(m);
 	free(sub_matrices);
-	free(M);*/
+	free(M);
 	return 0;
 }
 
@@ -256,3 +256,4 @@ int main(int argc, char** argv) {
 
 // run a bunch of times
 // clear; mpicc functions.c main.c -o floyd.exe -lm; for i in {1..20}; do mpirun -np 4 floyd.exe ex_mat.txt; done; rm -f floyd.exe
+// yo
