@@ -240,14 +240,16 @@ int main(int argc, char** argv) {
 		}
 	}}*/
 
-	// Finalize the MPI environment.
-	MPI_Finalize();
-
 	free(row_m);
 	free(col_m);
 	free(m);
-	/*free(sub_matrices);
-	free(M);*/
+	if (world_rank == 0){
+		free(sub_matrices);
+		free(M);
+	}
+
+	// Finalize the MPI environment.
+	MPI_Finalize();
 	return 0;
 }
 
