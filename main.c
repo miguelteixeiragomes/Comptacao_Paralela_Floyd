@@ -230,7 +230,6 @@ int main(int argc, char** argv) {
 		}
 	}
 
-
 	if (world_rank == 0){
 		print_matrix(M, N);
 	}
