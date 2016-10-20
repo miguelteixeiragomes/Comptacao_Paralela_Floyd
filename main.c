@@ -220,7 +220,7 @@ int main(int argc, char** argv) {
 		}
 	}
 
-	/*for (int m_i = 0; m_i < Q; m_i++)
+	for (int m_i = 0; m_i < Q; m_i++)
 		for (int m_j = 0; m_j < Q; m_j++)
 			for (int i = 0; i < size_m; i++)
 				for (int j = 0; j < size_m; j++)
@@ -229,17 +229,14 @@ int main(int argc, char** argv) {
 
 	if (world_rank != 0){
 		print_matrix(m, size_m);
-	}*/
-	printf("rank: %d\n", world_rank);
-	print_matrix(m, size_m);
-	/*if (world_rank == 0){
-	for (int i = 0; i < Q; i++){
-		for (int j = 0; j < Q; j++){
-			printf("coords %d,%d\n", i, j);
-			print_matrix(sub_matrices[i*Q + j], size_m);
-		}
-	}}*/
+	}
+	/*printf("rank: %d\n", world_rank);
+	print_matrix(m, size_m);*/
 
+
+	  /////////////////////////////
+	 //  free allocated memory  //
+	/////////////////////////////
 	free(row_m);
 	free(col_m);
 	free(m);
