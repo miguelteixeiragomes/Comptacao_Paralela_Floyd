@@ -59,6 +59,7 @@ int main(int argc, char** argv) {
 	MPI_Comm cart_comm;
 	int **sub_matrices;
 	int N;
+	int *M;
 	int size_m;
 	int Q = (int)sqrtf((double)world_size);
 	int dims[2] = {Q, Q};
@@ -94,7 +95,7 @@ int main(int argc, char** argv) {
 		file = fopen(argv[1], "r");
 
 		N = read_N(file);
-		int* M = read_matrix(file, N); // the matrix
+		M = read_matrix(file, N); // the matrix
 		fclose(file);
 
 		Q = check_sizes(N, world_size); // check if the num of processes is good.
@@ -116,7 +117,6 @@ int main(int argc, char** argv) {
 				//print_matrix(sub_matrices[Q*m_i + m_j], size_m); // to check validity of the division of the matrix
 			}
 		}
-		free(M);
 	}
 
 	MPI_Bcast(&N,      1, MPI_INT, 0, cart_comm);
@@ -132,12 +132,10 @@ int main(int argc, char** argv) {
 	//set_inf(m, size_m);
 
 	if (world_rank == 0){
-			////////////////////
+		  /////////////////////
 		 //  Root process:  //
 		/////////////////////
 		m = sub_matrices[0];
-		//printf("my rank: %d\n", world_rank);
-		//print_matrix(m, size_m);
 		for (int m_i = 0; m_i < Q; m_i++){
 			for (int m_j = 0; m_j < Q; m_j++){
 				int rank;
@@ -148,14 +146,12 @@ int main(int argc, char** argv) {
 		}
 	}
 	else{
-			/////////////////////
+		  /////////////////////
 		 // All other ranks //
 		/////////////////////
 		MPI_Recv(m, size_m*size_m, MPI_INT, 0, 0, cart_comm, MPI_STATUS_IGNORE);
 
 	}
-	MPI_Barrier(cart_comm);
-
 
 	  ////////////////////
 	 // Fox algorithm  //
@@ -205,11 +201,44 @@ int main(int argc, char** argv) {
 	}
 
 
+	  ///////////////////////
+	 //  gather matrices  //
+	///////////////////////
+	if (world_rank != 0){
+		MPI_Send(m, size_m*size_m, MPI_INT, 0, 0, cart_comm);
+	}
+	else{
+		for (int i = 0; i < Q; i++){
+			for (int j = 0; j < Q; j++){
+				if ((i != 0) && (j != 0)){
+					int rank;
+					int coord[2] = {i, j};
+					MPI_Cart_rank(cart_comm, coord, &rank);
+					MPI_Recv(sub_matrices[i*Q + j], size_m*size_m, MPI_INT, world_rank, 0, cart_comm, MPI_STATUS_IGNORE);
+				}
+			}
+		}
+	}
+
+	/*for (int m_i = 0; m_i < Q; m_i++)
+		for (int m_j = 0; m_j < Q; m_j++)
+			for (int i = 0; i < size_m; i++)
+				for (int j = 0; j < size_m; j++)
+					M[N*(m_i*size_m + i) + m_j*size_m + j] = sub_matrices[Q*m_i + m_j][size_m*i + j];
 
 
-
-	printf("my rank: %d\n", world_rank);
+	if (world_rank != 0){
+		print_matrix(m, size_m);
+	}*/
+	printf("rank: %d\n", world_rank);
 	print_matrix(m, size_m);
+	/*if (world_rank == 0){
+	for (int i = 0; i < Q; i++){
+		for (int j = 0; j < Q; j++){
+			printf("coords %d,%d\n", i, j);
+			print_matrix(sub_matrices[i*Q + j], size_m);
+		}
+	}}*/
 
 	// Finalize the MPI environment.
 	MPI_Finalize();
@@ -218,6 +247,7 @@ int main(int argc, char** argv) {
 	free(col_m);
 	free(m);
 	free(sub_matrices);
+	free(M);
 	return 0;
 }
 
