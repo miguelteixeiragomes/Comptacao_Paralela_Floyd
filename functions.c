@@ -67,6 +67,14 @@ void floyd_algorithm(int* A, int* B, int* C, int n)
 }
 
 
+void set_inf(int* a, int n)
+{
+	for (int i = 0; i < (n*n); i++){
+		a[i] = INF;
+	}
+}
+
+
 int check_sizes(int N, int world_size) // returns 0 for invalid sizes, else returns the side of the processors 'matrix' Q.
 {
 		int Q = (int)sqrtf((double)world_size);

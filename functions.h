@@ -14,6 +14,7 @@ void print_matrix(int*, int);
 void floyd_algorithm(int*, int*, int*, int);
 int check_sizes(int, int);
 int mod(int, int);
+void set_inf(int*, int);
 
 
 
