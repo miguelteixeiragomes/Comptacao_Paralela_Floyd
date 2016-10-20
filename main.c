@@ -222,7 +222,7 @@ int main(int argc, char** argv) {
 	}
 	MPI_Barrier(cart_comm);
 
-	if (world_rank == 0) {
+	/*if (world_rank == 0) {
 		for (int m_i = 0; m_i < Q; m_i++) {
 			for (int m_j = 0; m_j < Q; m_j++) {
 				for (int i = 0; i < size_m; i++) {
@@ -233,7 +233,7 @@ int main(int argc, char** argv) {
 			}
 		}
 		print_matrix(M, N);
-	}
+	}*/
 
 	printf("rank: %d\n", world_rank);
 	print_matrix(m, size_m);
