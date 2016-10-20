@@ -129,7 +129,7 @@ int main(int argc, char** argv) {
 	row_m = (int*)malloc(size_m*size_m*sizeof(int));
 	col_m = (int*)malloc(size_m*size_m*sizeof(int));
 	m     = (int*)malloc(size_m*size_m*sizeof(int));
-	set_inf(m, size_m);
+	//set_inf(m, size_m);
 
 	if (world_rank == 0){
 			////////////////////
@@ -169,8 +169,12 @@ int main(int argc, char** argv) {
 		for (int k = 0; k < Q; k++){
 
 			MPI_Cart_coords(cart_comm, world_rank, 2, coord);
-			if (coord[1] == k)
+			if (coord[1] == k){
 				memcpy(row_m, m, size_m*size_m*sizeof(int));
+			}
+			if (coord[0] == k){
+				memcpy(col_m, m, size_m*size_m*sizeof(int));
+			}
 
 			aux_coord[0] = coord[0];
 			aux_coord[1] = k;
@@ -185,24 +189,17 @@ int main(int argc, char** argv) {
 			MPI_Bcast(row_m, size_m*size_m, MPI_INT, row_root, row_comms[coord[0]]);
 
 
-			/*MPI_Cart_coords(cart_comm, world_rank, 2, coord);
-			MPI_Cart_rank(cart_comm, coord, &my_rank);
-			aux_coord[0] = coord[0];
-			aux_coord[1] = mod(coord[1] + 1, Q);
-			MPI_Cart_rank(cart_comm, aux_coord, &rank_row_source);
-			aux_coord[0] = mod(coord[0] + 1, Q);
+			aux_coord[0] = k;
 			aux_coord[1] = coord[1];
-			MPI_Cart_rank(cart_comm, aux_coord, &rank_col_source);
-			aux_coord[0] = coord[0];
-			aux_coord[1] = mod(coord[1] - 1, Q);
-			MPI_Cart_rank(cart_comm, aux_coord, &rank_row_dest);
-			aux_coord[0] = mod(coord[0] - 1, Q);
-			aux_coord[1] = coord[1];
-			MPI_Cart_rank(cart_comm, aux_coord, &rank_col_dest);*/
+			MPI_Cart_rank(cart_comm, aux_coord, &cart_root);
+			MPI_Group col_group;
+			MPI_Comm_group(cart_comm, &cart_group);
+			MPI_Comm_group(col_comms[coord[1]], &col_group);
+			int col_root;
+			MPI_Group_translate_ranks(cart_group, 1, &cart_root, col_group, &col_root);
+			MPI_Bcast(col_m, size_m*size_m, MPI_INT, col_root, col_comms[coord[1]]);
 
-			//MPI_Sendrecv_replace(row_m, size_m*size_m, MPI_INT, rank_row_dest, 0, rank_row_source, 0, cart_comm, MPI_STATUS_IGNORE);
-			//MPI_Sendrecv_replace(col_m, size_m*size_m, MPI_INT, rank_col_dest, 0, rank_col_source, 0, cart_comm, MPI_STATUS_IGNORE);
-			//floyd_algorithm(row_m, col_m, m, size_m);
+			floyd_algorithm(row_m, col_m, m, size_m);
 		}
 		//printf("done step %d of %d\n", iter, max_iter);
 	}
