@@ -200,7 +200,7 @@ int main(int argc, char** argv) {
 		//printf("done step %d of %d\n", iter, max_iter);
 	}
 
-
+	MPI_Barrier(cart_comm);
 	  ///////////////////////
 	 //  gather matrices  //
 	///////////////////////
