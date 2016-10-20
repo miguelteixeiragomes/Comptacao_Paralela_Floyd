@@ -246,8 +246,8 @@ int main(int argc, char** argv) {
 	free(row_m);
 	free(col_m);
 	free(m);
-	free(sub_matrices);
-	/*free(M);*/
+	/*free(sub_matrices);
+	free(M);*/
 	return 0;
 }
 
