@@ -220,11 +220,15 @@ int main(int argc, char** argv) {
 		}
 	}
 
-	/*for (int m_i = 0; m_i < Q; m_i++)
-		for (int m_j = 0; m_j < Q; m_j++)
-			for (int i = 0; i < size_m; i++)
-				for (int j = 0; j < size_m; j++)
-					M[N*(m_i*size_m + i) + m_j*size_m + j] = sub_matrices[Q*m_i + m_j][size_m*i + j];*/
+	for (int m_i = 0; m_i < Q; m_i++) {
+		for (int m_j = 0; m_j < Q; m_j++) {
+			for (int i = 0; i < size_m; i++) {
+				for (int j = 0; j < size_m; j++) {
+					M[N*(m_i*size_m + i) + m_j*size_m + j] = sub_matrices[Q*m_i + m_j][size_m*i + j];
+				}
+			}
+		}
+	}
 
 
 	if (world_rank == 0){
