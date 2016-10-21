@@ -186,7 +186,7 @@ int main(int argc, char** argv) {
 		free(M);
 	}
 
-	MPI_Barrier();
+	MPI_Barrier(cart_comm);
 	finish_time = MPI_Wtime();
 	printf("Execution time: %f", finish_time - start_time);
 	// Finalize the MPI environment.
