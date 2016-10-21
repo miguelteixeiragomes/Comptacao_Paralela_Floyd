@@ -66,7 +66,7 @@ int main(int argc, char** argv) {
 	int periods[2] = {1, 1};
 	MPI_Cart_create(MPI_COMM_WORLD, 2, dims, periods, 1, &cart_comm);
 
-
+	//  Generating Rows and Columns Communicators  //
 	MPI_Comm *row_comms = generate_row_comms(Q, cart_comm);
 	MPI_Comm *col_comms = generate_col_comms(Q, cart_comm);
 
@@ -76,14 +76,10 @@ int main(int argc, char** argv) {
 	MPI_Comm_rank(cart_comm, &world_rank);
 
 
-	  ////////////////////////////////////////////
-	 // Initiation of the matrix and broadcast //
-	////////////////////////////////////////////
+	  /////////////////////////////////////////////////
+	 // Initialization of the matrix of submatrices //
+	/////////////////////////////////////////////////
 	if (world_rank == 0){
-		  /////////////////////
-		 //  Root process:  //
-	 	//////////////////////
-
 		// Check file input
 		if (argc < 2) {
 			printf("No input file supplied\n");
@@ -95,27 +91,14 @@ int main(int argc, char** argv) {
 		file = fopen(argv[1], "r");
 
 		N = read_N(file);
-		//M = read_matrix(file, N); // the matrix
-		M = read_matrix(file, N, Q)
+		M = read_matrix2(file, N, Q); // the submatrices in line
 		fclose(file);
 
 		Q = check_sizes(N, world_size); // check if the num of processes is good.
 		if (Q == 0) {
 			return 1;
 		}
-
-		// divide the matrix in blocks
 		size_m = N/Q;
-		sub_matrices = (int**)malloc(Q*Q*sizeof(int*));
-
-		for (int m_i = 0; m_i < Q; m_i++){
-			for (int m_j = 0; m_j < Q; m_j++){
-				sub_matrices[Q*m_i + m_j] = (int*)malloc(size_m*size_m*sizeof(int));
-				for (int i = 0; i < size_m; i++)
-					for (int j = 0; j < size_m; j++)
-						sub_matrices[Q*m_i + m_j][size_m*i + j] = M[N*(m_i*size_m + i) + m_j*size_m + j];
-			}
-		}
 	}
 
 	MPI_Bcast(&N,      1, MPI_INT, 0, cart_comm);
@@ -124,32 +107,17 @@ int main(int argc, char** argv) {
 
 
 	size_m = N/Q;
+	int size_m2 = size_m*size_m;
 	int *row_m, *col_m, *m; // the matrices in each process for the calculation
 	row_m = (int*)malloc(size_m*size_m*sizeof(int));
 	col_m = (int*)malloc(size_m*size_m*sizeof(int));
 	m     = (int*)malloc(size_m*size_m*sizeof(int));
 
-	if (world_rank == 0){
-		  /////////////////////
-		 //  Root process:  //
-		/////////////////////
-		m = sub_matrices[0];
-		for (int m_i = 0; m_i < Q; m_i++){
-			for (int m_j = 0; m_j < Q; m_j++){
-				int rank;
-				int coord[2] = {m_i, m_j};
-				MPI_Cart_rank(cart_comm, coord, &rank);
-				MPI_Send(sub_matrices[Q*m_i + m_j], size_m*size_m, MPI_INT, rank, 0, cart_comm);
-			}
-		}
-	}
-	else{
-		  /////////////////////
-		 // All other ranks //
-		/////////////////////
-		MPI_Recv(m, size_m*size_m, MPI_INT, 0, 0, cart_comm, MPI_STATUS_IGNORE);
 
-	}
+	  ///////////////////////
+	 // Scatter matrices  //
+	///////////////////////
+	MPI_Scatter(M, size_m2, MPI_INT, m, size_m2, MPI_INT, 0, cart_comm);
 
 	  ////////////////////
 	 // Fox algorithm  //
@@ -164,10 +132,10 @@ int main(int argc, char** argv) {
 
 			MPI_Cart_coords(cart_comm, world_rank, 2, coord);
 			if (coord[1] == k){
-				memcpy(row_m, m, size_m*size_m*sizeof(int));
+				memcpy(row_m, m, size_m2*sizeof(int));
 			}
 			if (coord[0] == k){
-				memcpy(col_m, m, size_m*size_m*sizeof(int));
+				memcpy(col_m, m, size_m2*sizeof(int));
 			}
 
 			aux_coord[0] = coord[0];
@@ -180,7 +148,7 @@ int main(int argc, char** argv) {
 			MPI_Comm_group(row_comms[coord[0]], &row_group);
 			int row_root;
 			MPI_Group_translate_ranks(cart_group, 1, &cart_root, row_group, &row_root);
-			MPI_Bcast(row_m, size_m*size_m, MPI_INT, row_root, row_comms[coord[0]]);
+			MPI_Bcast(row_m, size_m2, MPI_INT, row_root, row_comms[coord[0]]);
 
 
 			aux_coord[0] = k;
@@ -191,7 +159,7 @@ int main(int argc, char** argv) {
 			MPI_Comm_group(col_comms[coord[1]], &col_group);
 			int col_root;
 			MPI_Group_translate_ranks(cart_group, 1, &cart_root, col_group, &col_root);
-			MPI_Bcast(col_m, size_m*size_m, MPI_INT, col_root, col_comms[coord[1]]);
+			MPI_Bcast(col_m, size_m2, MPI_INT, col_root, col_comms[coord[1]]);
 
 			floyd_algorithm(row_m, col_m, m, size_m);
 		}
@@ -200,33 +168,10 @@ int main(int argc, char** argv) {
 	  ///////////////////////
 	 //  gather matrices  //
 	///////////////////////
-	if (world_rank != 0){
-		MPI_Send(m, size_m*size_m, MPI_INT, 0, 0, cart_comm);
-	}
-	else{
-		for (int i = 0; i < Q; i++){
-			for (int j = 0; j < Q; j++){
-				if ((i != 0) || (j != 0)){
-					int rank;
-					int coord[2] = {i, j};
-					MPI_Cart_rank(cart_comm, coord, &rank);
-					MPI_Recv(sub_matrices[i*Q + j], size_m*size_m, MPI_INT, rank, 0, cart_comm, MPI_STATUS_IGNORE);
-				}
-			}
-		}
-	}
+	MPI_Gather(m, size_m2, MPI_INT, M, size_m2, MPI_INT, 0, cart_comm);
 
 	if (world_rank == 0) {
-		for (int m_i = 0; m_i < Q; m_i++) {
-			for (int m_j = 0; m_j < Q; m_j++) {
-				for (int i = 0; i < size_m; i++) {
-					for (int j = 0; j < size_m; j++) {
-						M[N*(m_i*size_m + i) + m_j*size_m + j] = sub_matrices[Q*m_i + m_j][size_m*i + j];
-					}
-				}
-			}
-		}
-		print_matrix(M, N);
+		print_matrix2(M, N, Q);
 	}
 
 	  /////////////////////////////
@@ -236,7 +181,6 @@ int main(int argc, char** argv) {
 	free(col_m);
 	free(m);
 	if (world_rank == 0){
-		free(sub_matrices);
 		free(M);
 	}
 

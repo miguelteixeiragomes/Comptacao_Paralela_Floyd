@@ -67,6 +67,24 @@ void print_matrix(int* a, int n)
 }
 
 
+void print_matrix2(int* a, int N, int Q)
+{
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			int I = i*N + j;
+			int S = N/Q;
+			int index = I%S  +  S*(S*((I%N)/S)  +  ((I%(N*S))/N)  +  N*(I/(N*S)));
+			if (a[index] == INF)
+				printf("%d ", 0);
+			else
+				printf("%d ", a[index]);
+		}
+		printf("\n");
+	}
+	printf("\n");
+}
+
+
 int mod(int a, int b)
 {
 	return ((a % b) + b) % b;
