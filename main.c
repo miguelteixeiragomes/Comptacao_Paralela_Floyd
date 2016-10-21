@@ -50,6 +50,8 @@ MPI_Comm* generate_col_comms(int Q, MPI_Comm cart_comm)
 int main(int argc, char** argv) {
 	// Initialize the MPI environment
 	MPI_Init(NULL, NULL);
+	double start_time, finish_time;
+	start_time = MPI_Wtime();
 
 	// Get the number of processes
 	int world_size;
@@ -184,6 +186,9 @@ int main(int argc, char** argv) {
 		free(M);
 	}
 
+	MPI_Barrier();
+	finish_time = MPI_Wtime();
+	printf("Execution time: %f", finish_time - start_time);
 	// Finalize the MPI environment.
 	MPI_Finalize();
 	return 0;
