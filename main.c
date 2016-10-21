@@ -95,7 +95,8 @@ int main(int argc, char** argv) {
 		file = fopen(argv[1], "r");
 
 		N = read_N(file);
-		M = read_matrix(file, N); // the matrix
+		//M = read_matrix(file, N); // the matrix
+		M = read_matrix(file, N, Q)
 		fclose(file);
 
 		Q = check_sizes(N, world_size); // check if the num of processes is good.

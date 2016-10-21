@@ -28,6 +28,30 @@ int* read_matrix(FILE *file, int N)
 }
 
 
+int* read_matrix2(FILE *file, int N, int Q)
+{
+	// Allocate matrix pointers to values
+	int* M = malloc(N*N*sizeof(int));
+	// Read from file to matrix
+	for (int I = 0; I < N; I++) {
+		for (int J = 0; J < N; J++){
+			int S = N/Q;
+			int i = I*N + J;
+			//int index = i%S  +  S*S*((i%N)/S)  +  S*((i%(N*S))/N)  +  N*S*(i/(N*S)); // plain version
+			int index = i%S  +  S*(S*((i%N)/S)  +  ((i%(N*S))/N)  +  N*(i/(N*S)));
+
+			if (!fscanf(file, "%i", &M[index])) {
+				return 0;
+			}
+			if ((I != J) && (M[index] == 0)) {
+				M[index] = INF;
+			}
+		}
+	}
+	return M;
+}
+
+
 void print_matrix(int* a, int n)
 {
 	for (int i = 0; i < n; i++) {
