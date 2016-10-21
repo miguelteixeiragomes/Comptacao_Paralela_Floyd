@@ -188,7 +188,7 @@ int main(int argc, char** argv) {
 
 	MPI_Barrier(cart_comm);
 	finish_time = MPI_Wtime();
-	printf("Execution time: %f", finish_time - start_time);
+	if (world_rank == 0)printf("Execution time: %f\n", finish_time - start_time);
 	// Finalize the MPI environment.
 	MPI_Finalize();
 	return 0;
