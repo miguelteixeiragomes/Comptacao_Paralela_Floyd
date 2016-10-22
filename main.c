@@ -5,10 +5,8 @@
 #include "functions.h"
 
 
-MPI_Comm* generate_row_comms(int Q, MPI_Comm cart_comm)
+MPI_Comm* generate_row_comms(int Q, MPI_Comm cart_comm, MPI_Group cart_group)
 {
-	MPI_Group cart_group;
-	MPI_Comm_group(cart_comm, &cart_group);
 	int **row_ranks = (int**)malloc(Q*sizeof(int*));
 	MPI_Comm *row_comms = (MPI_Comm*)malloc(Q*sizeof(MPI_Comm));
 	for (int i = 0;  i < Q; i++){
@@ -26,10 +24,8 @@ MPI_Comm* generate_row_comms(int Q, MPI_Comm cart_comm)
 	return row_comms;
 }
 
-MPI_Comm* generate_col_comms(int Q, MPI_Comm cart_comm)
+MPI_Comm* generate_col_comms(int Q, MPI_Comm cart_comm, MPI_Group cart_group)
 {
-	MPI_Group cart_group;
-	MPI_Comm_group(cart_comm, &cart_group);
 	int **col_ranks = (int **)malloc(Q*sizeof(int*));
 	MPI_Comm *col_comms = (MPI_Comm *)malloc(Q*sizeof(MPI_Comm));
 	for(int i = 0; i < Q; i++){
@@ -61,22 +57,24 @@ int main(int argc, char** argv) {
 	MPI_Comm cart_comm;
 	int **sub_matrices;
 	int N;
-	int *M;
+	int *M; //Is the glibal matrix
 	int size_m;
 	int Q = (int)sqrtf((double)world_size);
 	int dims[2] = {Q, Q};
 	int periods[2] = {1, 1};
 	MPI_Cart_create(MPI_COMM_WORLD, 2, dims, periods, 1, &cart_comm);
 
-	//  Generating Rows and Columns Communicators  //
-	MPI_Comm *row_comms = generate_row_comms(Q, cart_comm);
-	MPI_Comm *col_comms = generate_col_comms(Q, cart_comm);
+	// Get the cart group
+	MPI_Group cart_group;
+	MPI_Comm_group(cart_comm, &cart_group);
 
+	// Generating Rows and Columns Communicators
+	MPI_Comm *row_comms = generate_row_comms(Q, cart_comm, cart_group);
+	MPI_Comm *col_comms = generate_col_comms(Q, cart_comm, cart_group);
 
 	// Get the rank of the process
 	int world_rank;
 	MPI_Comm_rank(cart_comm, &world_rank);
-
 
 	  /////////////////////////////////////////////////
 	 // Initialization of the matrix of submatrices //
@@ -93,20 +91,21 @@ int main(int argc, char** argv) {
 		file = fopen(argv[1], "r");
 
 		N = read_N(file);
-		M = read_matrix2(file, N, Q); // the submatrices in line
+		M = read_matrix2(file, N, Q); // read the submatrices in line
 		fclose(file);
 
 		Q = check_sizes(N, world_size); // check if the num of processes is good.
 		if (Q == 0) {
+			printf("Fox condition failed\n");
 			return 1;
 		}
 		size_m = N/Q;
 	}
 
+	// Broadcast matrix parameters
 	MPI_Bcast(&N,      1, MPI_INT, 0, cart_comm);
 	MPI_Bcast(&Q,      1, MPI_INT, 0, cart_comm);
 	MPI_Bcast(&size_m, 1, MPI_INT, 0, cart_comm);
-
 
 	size_m = N/Q;
 	int size_m2 = size_m*size_m;
@@ -114,7 +113,6 @@ int main(int argc, char** argv) {
 	row_m = (int*)malloc(size_m*size_m*sizeof(int));
 	col_m = (int*)malloc(size_m*size_m*sizeof(int));
 	m     = (int*)malloc(size_m*size_m*sizeof(int));
-
 
 	  ///////////////////////
 	 // Scatter matrices  //
@@ -126,9 +124,9 @@ int main(int argc, char** argv) {
 	////////////////////
 	int coord[2];
 	int aux_coord[2];
-	int my_rank, rank_row_source, rank_col_source, rank_row_dest, rank_col_dest, cart_root, row_root, col_root;
-	MPI_Group cart_group, row_group, col_group;
-	MPI_Comm_group(cart_comm, &cart_group);
+	int my_rank, rank_row_source, rank_col_source, rank_row_dest; rank_col_dest;
+	int cart_root, row_root, col_root;
+	MPI_Group row_group, col_group;
 	int max_iter = (((int)log((double)N)) / log(2.0) + 1);
 	for (int iter = 0; iter < max_iter; iter++) {
 		for (int k = 0; k < Q; k++){
@@ -169,19 +167,20 @@ int main(int argc, char** argv) {
 		print_matrix2(M, N, Q);
 	}
 
-	  /////////////////////////////
-	 //  free allocated memory  //
+	MPI_Barrier(cart_comm);
+	finish_time = MPI_Wtime();
+	if (world_rank == 0){
+		printf("Execution time: %fs\n", finish_time - start_time);
+		free(M);
+	}
+
+	/////////////////////////////
+	//  free allocated memory  //
 	/////////////////////////////
 	free(row_m);
 	free(col_m);
 	free(m);
-	if (world_rank == 0){
-		free(M);
-	}
 
-	MPI_Barrier(cart_comm);
-	finish_time = MPI_Wtime();
-	if (world_rank == 0)printf("Execution time: %fs\n", finish_time - start_time);
 	// Finalize the MPI environment.
 	MPI_Finalize();
 	return 0;
