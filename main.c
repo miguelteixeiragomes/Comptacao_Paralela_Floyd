@@ -126,8 +126,9 @@ int main(int argc, char** argv) {
 	////////////////////
 	int coord[2];
 	int aux_coord[2];
-	int my_rank, rank_row_source, rank_col_source, rank_row_dest, rank_col_dest;
-
+	int my_rank, rank_row_source, rank_col_source, rank_row_dest, rank_col_dest, cart_root, row_root, col_root;
+	MPI_Group cart_group, row_group, col_group;
+	MPI_Comm_group(cart_comm, &cart_group);
 	int max_iter = (((int)log((double)N)) / log(2.0) + 1);
 	for (int iter = 0; iter < max_iter; iter++) {
 		for (int k = 0; k < Q; k++){
@@ -142,13 +143,8 @@ int main(int argc, char** argv) {
 
 			aux_coord[0] = coord[0];
 			aux_coord[1] = k;
-			int cart_root;
 			MPI_Cart_rank(cart_comm, aux_coord, &cart_root);
-			MPI_Group cart_group;
-			MPI_Group row_group;
-			MPI_Comm_group(cart_comm, &cart_group);
 			MPI_Comm_group(row_comms[coord[0]], &row_group);
-			int row_root;
 			MPI_Group_translate_ranks(cart_group, 1, &cart_root, row_group, &row_root);
 			MPI_Bcast(row_m, size_m2, MPI_INT, row_root, row_comms[coord[0]]);
 
@@ -156,10 +152,7 @@ int main(int argc, char** argv) {
 			aux_coord[0] = k;
 			aux_coord[1] = coord[1];
 			MPI_Cart_rank(cart_comm, aux_coord, &cart_root);
-			MPI_Group col_group;
-			MPI_Comm_group(cart_comm, &cart_group);
 			MPI_Comm_group(col_comms[coord[1]], &col_group);
-			int col_root;
 			MPI_Group_translate_ranks(cart_group, 1, &cart_root, col_group, &col_root);
 			MPI_Bcast(col_m, size_m2, MPI_INT, col_root, col_comms[coord[1]]);
 
