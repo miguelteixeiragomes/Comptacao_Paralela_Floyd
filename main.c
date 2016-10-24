@@ -47,7 +47,6 @@ int main(int argc, char** argv) {
 	// Initialize the MPI environment
 	MPI_Init(NULL, NULL);
 	double start_time, finish_time;
-	start_time = MPI_Wtime();
 
 	// Get the number of processes
 	int world_size;
@@ -101,6 +100,9 @@ int main(int argc, char** argv) {
 		}
 		size_m = N/Q;
 	}
+
+	// Start time count
+	start_time = MPI_Wtime();
 
 	// Broadcast matrix parameters
 	MPI_Bcast(&N,      1, MPI_INT, 0, cart_comm);
@@ -163,15 +165,11 @@ int main(int argc, char** argv) {
 	///////////////////////
 	MPI_Gather(m, size_m2, MPI_INT, M, size_m2, MPI_INT, 0, cart_comm);
 
+	// calculation finished - acquire time
+	finish_time = MPI_Wtime();
+
 	if (world_rank == 0) {
 		print_matrix2(M, N, Q);
-	}
-
-	MPI_Barrier(cart_comm);
-	finish_time = MPI_Wtime();
-	if (world_rank == 0){
-		printf("Execution time: %fs\n", finish_time - start_time);
-		free(M);
 	}
 
 	/////////////////////////////
@@ -180,6 +178,10 @@ int main(int argc, char** argv) {
 	free(row_m);
 	free(col_m);
 	free(m);
+	if (world_rank == 0){
+		printf("Execution time: %fs\n", finish_time - start_time);
+		free(M);
+	}
 
 	// Finalize the MPI environment.
 	MPI_Finalize();
