@@ -126,7 +126,7 @@ int main(int argc, char** argv) {
 	////////////////////
 	int coord[2];
 	int aux_coord[2];
-	int my_rank, rank_row_source, rank_col_source, rank_row_dest; rank_col_dest;
+	int my_rank, rank_row_source, rank_col_source, rank_row_dest, rank_col_dest;
 	int cart_root, row_root, col_root;
 	MPI_Group row_group, col_group;
 	int max_iter = (((int)log((double)N)) / log(2.0) + 1);
