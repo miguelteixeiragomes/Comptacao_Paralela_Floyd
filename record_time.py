@@ -39,7 +39,7 @@ for N in N_s:
         os.system("mpirun -np %d -hostfile clusterfile_special.txt floyd test_matrix.txt >> time_data.txt" % CPU*N_MAQ)
 
     f = open("time_data.txt", "r")
-    lst = np.array([float(i[16:-1]) for i in f.readlines()])
+    lst = numpy.array([float(i[16:-1]) for i in f.readlines()])
     print str(N) + '\t' + str(numpy.average(lst)) + '\t' + str(numpy.std(lst))
     f.close()
 
