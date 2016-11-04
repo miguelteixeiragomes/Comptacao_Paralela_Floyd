@@ -39,7 +39,7 @@ for N in N_s:
         os.system("mpirun -np %d -hostfile clusterfile_special.txt floyd test_matrix.txt >> time_data.txt" % CPU*N_MAQ)
 
     f = open("time_data.txt", "r")
-    print str(N) + '\t' + str(sum([float(i[16:-1]) for i in f.readlines()]) / float(len(N_s)))
+    print str(N) + '\t' + str(sum([float(i[16:-1]) for i in f.readlines()]) / float(MIN))
     f.close()
 
 os.system("rm -f clusterfile_special.txt")
