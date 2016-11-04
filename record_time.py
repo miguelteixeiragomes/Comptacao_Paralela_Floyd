@@ -11,12 +11,13 @@ MAX_TIME = input("maximum time per size (sec) = ")
 f = open("clusterfile", "r")
 cluster = [i.split('=')[0] + '=' + str(CPU) for i in f.readlines() if 'cpu' in i]
 f.close()
-if len(cluster) < N_MAQ:raise ValueError("Original clusterfile doesn't have enough machines.")
+if len(cluster) < N_MAQ:
+    raise ValueError("Original clusterfile doesn't have enough machines.")
+
 f = open("clusterfile_special.txt", "w")
-for i in cluster:
+for i in random.sample(set(cluster), N_MAQ):
     f.write(i + '\n')
 f.close()
-
 
 for N in N_s:
     f = open("test_matrix.txt", "w")
