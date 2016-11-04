@@ -1,6 +1,6 @@
 #define INF 1000000000
 #include "functions.h"
-
+#include <stdio.h>
 
 int read_N(FILE* file)
 {
@@ -69,19 +69,21 @@ void print_matrix(int* a, int n)
 
 void print_matrix2(int* a, int N, int Q)
 {
+	FILE *f = fopen("output.txt", "w+");
+
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N; j++) {
 			int I = i*N + j;
 			int S = N/Q;
 			int index = I%S  +  S*(S*((I%N)/S)  +  ((I%(N*S))/N)  +  N*(I/(N*S)));
 			if (a[index] == INF)
-				printf("%d ", 0);
+				fprintf("%d ", 0);
 			else
-				printf("%d ", a[index]);
+				fprintf("%d ", a[index]);
 		}
-		printf("\b\n");
+		fprintf("\b\n");
 	}
-	printf("\n");
+	fclose(f);
 }
 
 
