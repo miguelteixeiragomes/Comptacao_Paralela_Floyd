@@ -1,5 +1,6 @@
 import random
 import os
+import numpy
 
 N_s = [int(i) for i in raw_input("Matrix size = ").replace(' ', '').split(',')]
 N_MAQ = input("Number of machines = ")
@@ -39,7 +40,8 @@ for N in N_s:
         os.system("mpirun -np %d -hostfile clusterfile_special.txt floyd test_matrix.txt >> time_data.txt" % CPU*N_MAQ)
 
     f = open("time_data.txt", "r")
-    print str(N) + '\t' + str(sum([float(i[16:-1]) for i in f.readlines()]) / float(MIN))
+    lst = np.array([float(i[16:-1]) for i in f.readlines()])
+    print str(N) + '\t' + str(numpy.average(lst)) + '\t' + str(numpy.std(lst))
     f.close()
 
 os.system("rm -f clusterfile_special.txt")
