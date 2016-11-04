@@ -94,12 +94,6 @@ void print_matrix2(int* a, int N, int Q)
 }
 
 
-int mod(int a, int b)
-{
-	return ((a % b) + b) % b;
-}
-
-
 int min(int a, int b)
 {
 	if (b < a)
