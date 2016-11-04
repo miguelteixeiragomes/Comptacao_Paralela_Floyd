@@ -35,7 +35,6 @@ for N in N_s:
 
     os.system("make")
 
-    init_time = time.clock()
     for i in range(MIN):
         os.system("mpirun -np %d -hostfile clusterfile_special.txt floyd test_matrix.txt >> time_data.txt" % CPU*N_MAQ)
 
