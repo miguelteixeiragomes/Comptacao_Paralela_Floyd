@@ -60,7 +60,7 @@ int main(int argc, char** argv) {
 	int size_m;
 	int Q = (int)sqrtf((double)world_size);
 	int dims[2] = {Q, Q};
-	int periods[2] = {1, 1};
+	int periods[2] = {0, 0};
 	MPI_Cart_create(MPI_COMM_WORLD, 2, dims, periods, 1, &cart_comm);
 
 	// Get the cart group

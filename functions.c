@@ -79,7 +79,7 @@ void print_matrix2(int* a, int N, int Q)
 			else
 				printf("%d ", a[index]);
 		}
-		printf("\n");
+		printf("\b\n");
 	}
 	printf("\n");
 }
