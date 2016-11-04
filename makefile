@@ -1,2 +1,2 @@
-floyd.exe: functions.c main.c
-	mpicc functions.c main.c -o floyd.exe -lm
+floyd: functions.c main.c
+	mpicc functions.c main.c -o floyd -lm
