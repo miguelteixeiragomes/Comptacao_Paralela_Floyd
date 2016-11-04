@@ -40,7 +40,7 @@ for N in N_s:
 
     f = open("time_data.txt", "r")
     lst = numpy.array([float(i[16:-2]) for i in f.readlines()])
-    print str(N) + '\t' + str(numpy.average(lst)) + '\t' + str(numpy.std(lst))
+    print str(N) + ' ' + str(numpy.average(lst)) + ' ' + str(numpy.std(lst))
     f.close()
 
 os.system("rm -f clusterfile_special.txt")
