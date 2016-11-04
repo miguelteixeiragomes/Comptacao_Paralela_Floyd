@@ -12,6 +12,8 @@ cluster = [i.split('=')[0] + '=' + str(CPU) for i in f.readlines() if 'cpu' in i
 f.close()
 if len(cluster) < N_MAQ:
     raise ValueError("Original clusterfile doesn't have enough machines.")
+os.system("make")
+print ' '
 
 
 for N in N_s:
@@ -32,8 +34,6 @@ for N in N_s:
     f = open("time_data.txt", "w")
     f.close()
 
-
-    os.system("make")
 
     for i in range(MIN):
         os.system("mpirun -np %d -hostfile clusterfile_special.txt floyd test_matrix.txt >> time_data.txt" % CPU*N_MAQ)
