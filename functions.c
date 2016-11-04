@@ -70,18 +70,25 @@ void print_matrix(int* a, int n)
 void print_matrix2(int* a, int N, int Q)
 {
 	FILE *f = fopen("output.txt", "w+");
-
-	for (int i = 0; i < N; i++) {
-		for (int j = 0; j < N; j++) {
-			int I = i*N + j;
-			int S = N/Q;
-			int index = I%S  +  S*(S*((I%N)/S)  +  ((I%(N*S))/N)  +  N*(I/(N*S)));
+	int i, j, I, S, index;
+	for (i = 0; i < N; i++) {
+		for (j = 0; j < N-1; j++) {
+			I = i*N + j;
+			S = N/Q;
+			index = I%S  +  S*(S*((I%N)/S)  +  ((I%(N*S))/N)  +  N*(I/(N*S)));
 			if (a[index] == INF)
-				fprintf("%d ", 0);
+				fprintf(f, "%d ", 0);
 			else
-				fprintf("%d ", a[index]);
+				fprintf(f, "%d ", a[index]);
 		}
-		fprintf("\b\n");
+		j++;
+		I = i*N + j;
+		S = N/Q;
+		index = I%S  +  S*(S*((I%N)/S)  +  ((I%(N*S))/N)  +  N*(I/(N*S)));
+		if (a[index] == INF)
+			fprintf(f, "%d\n", 0);
+		else
+			fprintf(f, "%d\n", a[index]);
 	}
 	fclose(f);
 }
