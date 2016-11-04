@@ -38,8 +38,8 @@ for N in N_s:
     init_time = time.clock()
     for i in range(MIN):
         os.system("mpirun -np %d -hostfile clusterfile_special.txt floyd test_matrix.txt >> time_data.txt" % CPU*N_MAQ)
-    while (time.clock() - init_time) < MAX_TIME:
-        os.system("mpirun -np %d -hostfile clusterfile_special.txt floyd test_matrix.txt >> time_data.txt" % CPU*N_MAQ)
+    #while (time.clock() - init_time) < MAX_TIME:
+        #os.system("mpirun -np %d -hostfile clusterfile_special.txt floyd test_matrix.txt >> time_data.txt" % CPU*N_MAQ)
 
     f = open("time_data.txt", "r")
     print str(N) + '\t' + str(sum([float(i[16:]) for i in f.readlines()]) / float(len(N_s)))
