@@ -79,9 +79,10 @@ void print_matrix2(int* a, int N, int Q)
 			if (a[index] == INF)
 				printf("%d ", 0);
 				fprintf(f, "%d ", 0);
-			else
+			else {
 				printf("%d ", a[index]);
 				fprintf(f, "%d ", a[index]);
+			}
 		}printf("\n");
 		/*j++;
 		I = i*N + j;
