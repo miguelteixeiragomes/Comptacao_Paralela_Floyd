@@ -90,7 +90,7 @@ int main(int argc, char** argv) {
 		file = fopen(argv[1], "r");
 
 		N = read_N(file);
-		M = read_matrix(file, N, Q); // read the submatrices in line
+		M = read_matrix2(file, N, Q); // read the submatrices in line
 		fclose(file);
 
 		Q = check_sizes(N, world_size); // check if the num of processes is good.
@@ -169,7 +169,7 @@ int main(int argc, char** argv) {
 	finish_time = MPI_Wtime();
 
 	if (world_rank == 0) {
-		print_matrix(M, N, Q);
+		print_matrix2(M, N, Q);
 	}
 
 	/////////////////////////////

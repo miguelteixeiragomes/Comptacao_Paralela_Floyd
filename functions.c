@@ -28,7 +28,7 @@ int read_N(FILE* file)
 }*/
 
 
-int* read_matrix(FILE *file, int N, int Q)
+int* read_matrix2(FILE *file, int N, int Q)
 {
 	// Allocate matrix pointers to values
 	int* M = malloc(N*N*sizeof(int));
@@ -67,7 +67,7 @@ int* read_matrix(FILE *file, int N, int Q)
 }*/
 
 
-void print_matrix(int* a, int N, int Q)
+void print_matrix2(int* a, int N, int Q)
 {
 	FILE *f = fopen("output.txt", "w+");
 	int i, j, I, S, index;
