@@ -77,10 +77,12 @@ void print_matrix2(int* a, int N, int Q)
 			S = N/Q;
 			index = I%S  +  S*(S*((I%N)/S)  +  ((I%(N*S))/N)  +  N*(I/(N*S)));
 			if (a[index] == INF)
+				printf("%d ", 0);
 				fprintf(f, "%d ", 0);
 			else
+				printf("%d ", a[index]);
 				fprintf(f, "%d ", a[index]);
-		}
+		}printf("\n");
 		/*j++;
 		I = i*N + j;
 		S = N/Q;
