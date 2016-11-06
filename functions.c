@@ -44,24 +44,22 @@ void print_matrix(int* a, int N, int Q)
 			S = N/Q;
 			index = I%S  +  S*(S*((I%N)/S)  +  ((I%(N*S))/N)  +  N*(I/(N*S)));
 			if (a[index] == INF) {
-				printf("%d ", 0);
+				//printf("%d ", 0);
 				fprintf(f, "%d ", 0);
 			}
 			else {
-				printf("%d ", a[index]);
+				//printf("%d ", a[index]);
 				fprintf(f, "%d ", a[index]);
 			}
 		}
-		printf("\n");
-		fprintf(f, "\n");
-		/*j++;
-		I = i*N + j;
+		//printf("\n");
+		I = i*N + N - 1;
 		S = N/Q;
 		index = I%S  +  S*(S*((I%N)/S)  +  ((I%(N*S))/N)  +  N*(I/(N*S)));
 		if (a[index] == INF)
 			fprintf(f, "%d\n", 0);
 		else
-			fprintf(f, "%d\n", a[index]);*/
+			fprintf(f, "%d\n", a[index]);
 	}
 	fclose(f);
 }
