@@ -4,7 +4,7 @@ import pylab as pl
 f = open("DATA.txt", "r")
 lst = [i.replace('\n', '') for i in f.readlines() if i != '\n']
 f.close()
-colors = ['b', 'r', 'g', 'o']
+colors = ['b', 'r', 'g', 'black']
 
 pl.figure("Execution time")
 pl.title("Execution time")
@@ -24,12 +24,12 @@ for line in range(1, len(lst)):
         t  = float(lst[line].split(' ')[1])
         dt = float(lst[line].split(' ')[2])
         if labeling:
-            pl.scatter([N], [t], color = colors[i], marker = 'o', label = label, alpha = .5)
+            pl.scatter([N], [t], color = colors[i], marker = 'o', label = label, alpha = 0.5)
         else:
-            pl.scatter([N], [t], color = colors[i], marker = 'o', alpha = .5)
-        pl.scatter([N], [t + dt], color = colors[i], marker = '_', alpha = .5)
-        pl.scatter([N], [t - dt], color = colors[i], marker = '_', alpha = .5)
-        pl.plot([N]*2, [t - dt, t + dt], color = colors[i], alpha = .5)
+            pl.scatter([N], [t], color = colors[i], marker = 'o', alpha = 0.5)
+        pl.scatter([N], [t + dt], color = colors[i], marker = '_', alpha = 0.5)
+        pl.scatter([N], [t - dt], color = colors[i], marker = '_', alpha = 0.5)
+        pl.plot([N]*2, [t - dt, t + dt], color = colors[i], alpha = 0.5)
         labeling = False
 
     except:

@@ -1,6 +1,7 @@
 #define INF 1000000000
 #include "functions.h"
 #include <stdio.h>
+#include <omp.h>
 
 int read_N(FILE* file)
 {
