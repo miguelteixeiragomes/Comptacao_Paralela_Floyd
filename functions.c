@@ -77,12 +77,14 @@ int min(int a, int b)
 void floyd_algorithm(int* A, int* B, int* C, int n)
 {
 	int i, j, k;
-	omp_set_num_threads(4);
-	#pragma parallel for private(j, k)
-	for (i = 0; i < n; i++)
-		for (j = 0; j < n; j++)
-			for (k = 0; k < n; k++)
-				C[n*i + j] = min(C[n*i + j], A[n*i + k] + B[n*k + j]);
+	#pragma omp parallel private(i, j, k)
+	{
+		#pragma omp for
+		for (i = 0; i < n; i++)
+			for (j = 0; j < n; j++)
+				for (k = 0; k < n; k++)
+					C[n*i + j] = min(C[n*i + j], A[n*i + k] + B[n*k + j]);
+	}
 }
 
 
