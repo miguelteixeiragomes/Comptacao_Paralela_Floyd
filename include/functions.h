@@ -2,8 +2,6 @@
 #define FUNCTION_H
 
 
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -15,8 +13,8 @@ void floyd_algorithm(int*, int*, int*, int);
 int check_sizes(int, int);
 int mod(int, int);
 void set_inf(int*, int);
-
-
+MPI_Comm* generate_row_comms(int, MPI_Comm, MPI_Group);
+MPI_Comm* generate_col_comms(int, MPI_Comm, MPI_Group);
 
 
 #endif

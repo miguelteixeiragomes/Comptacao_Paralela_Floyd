@@ -1,2 +1,2 @@
 floyd: functions.c main.c
-	mpicc functions.c main.c -o floyd -lm
+	mpicc ./source/functions.c ./source/main.c -o floyd -lm

@@ -1,5 +1,10 @@
 import pylab as pl
 
+'''
+This script takes the data from the record_time script
+and plots the graphs of the computing time for 
+the different cluster settings
+'''
 
 f = open("DATA.txt", "r")
 lst = [i.replace('\n', '') for i in f.readlines() if i != '\n']

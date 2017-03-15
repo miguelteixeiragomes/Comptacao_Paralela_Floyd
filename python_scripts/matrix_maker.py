@@ -1,5 +1,10 @@
 import random
 
+'''
+Script for generating random matrices 
+for the Floyd-Warshall algorithm
+'''
+
 N = input("N = ")
 f = open("matrix.txt", "w")
 f.write(str(N) + "\n")

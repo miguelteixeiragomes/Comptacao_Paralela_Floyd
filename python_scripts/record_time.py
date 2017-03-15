@@ -2,6 +2,12 @@ import random
 import os
 import numpy
 
+'''
+This script runs the C code with a given set of parameters 
+such as the cluster specifications, composes a cluster file for
+the mpicc and records the computation time of each run
+'''
+
 N_s = [int(i) for i in raw_input("Matrix size = ").replace(' ', '').split(',')]
 N_MAQ = input("Number of machines = ")
 CPU = input("Number of cpu = ")
